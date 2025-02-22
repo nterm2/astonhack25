@@ -1,9 +1,12 @@
+import 'package:drink_less/pages/start_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 class ShapeRotation extends StatefulWidget {
-  const ShapeRotation({super.key});
+  final int questionNumber;
+
+  const ShapeRotation({super.key, this.questionNumber = 1});
 
   @override
   State<ShapeRotation> createState() => _ShapeRotationState();
@@ -35,7 +38,7 @@ class SAR {
 class _ShapeRotationState extends State<ShapeRotation> {
   @override
   Widget build(BuildContext context) {
-    final sar = SAR(1);
+    final sar = SAR(widget.questionNumber);
     return Scaffold(
       appBar: AppBar(title: Text("Shapes and rotation")),
       body: Column(
@@ -52,9 +55,25 @@ class _ShapeRotationState extends State<ShapeRotation> {
                           padding: EdgeInsets.all(10),
                           child: Column(
                             children: [
-                              ElevatedButton(onPressed: () {
-                                if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                              }, child: c.$1),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              widget.questionNumber < 5
+                                                  ? ShapeRotation(
+                                                    questionNumber:
+                                                        widget.questionNumber +
+                                                        1,
+                                                  )
+                                                  : StartTestPage(),
+                                    ),
+                                  );
+                                },
+                                child: c.$1,
+                              ),
                               Text(c.$2),
                             ],
                           ),
