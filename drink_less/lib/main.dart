@@ -1,3 +1,4 @@
+import 'package:drink_less/net/face_scan.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -56,7 +57,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -109,6 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            FloatingActionButton(
+              onPressed: () => performScan('assets/test_image.jpg'),
+              child: Icon(Icons.info),
+            ),
           ],
         ),
       ),
@@ -116,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ), // This trailing comma makes auto-formatting nicer for build methods
     );
   }
 }
