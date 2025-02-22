@@ -168,13 +168,13 @@ class _GameScreenState extends State<GameScreen>
                     child: Container(
                       key: ValueKey(isRevealed),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        isRevealed ? tiles[index] : '?',
-                        style: TextStyle(fontSize: 32, color: Colors.white),
+                        isRevealed ? tiles[index] : '★',
+                        style: TextStyle(fontSize: 32, color: Colors.greenAccent[400]),
                       ),
                     ),
                   ),
