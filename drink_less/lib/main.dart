@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        body: TreeWidget(n: 10),
+        body: TreeWidget(n: 100),
       ),
     );
   }

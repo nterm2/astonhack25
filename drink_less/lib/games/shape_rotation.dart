@@ -19,8 +19,8 @@ class SAR {
       answer = Image.asset("assets/images/q$qn/Answer.png"),
       options =
           [
-            "A",
             "B",
+            "C",
             "D",
           ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
