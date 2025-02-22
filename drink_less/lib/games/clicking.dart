@@ -15,10 +15,6 @@ class ClickBlock {
   /* destruction only */
   double dt = 0;
 
-  double _triangleArea(Offset a, Offset b, Offset c) {
-    return (a.dx * (b.dy - c.dy) + b.dx * (c.dy - a.dy) + c.dx * (a.dy - b.dy)) / 2.0;
-  }
-
   bool _insideTriangle(Offset tri, Offset click, double size) {
     final height = (size * sqrt(3)) / 2.0;
 
