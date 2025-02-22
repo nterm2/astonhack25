@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum Shape { rect, circle, triangle }
+enum Shape { rect, circle}
 
 class ClickBlock {
   double x;
@@ -16,24 +16,26 @@ class ClickBlock {
   double dt = 0;
 
   bool _insideTriangle(Offset tri, Offset click, double size) {
-    final height = (size * sqrt(3)) / 2.0;
+    final double height = (size * sqrt(3)) / 2.0;
 
-    final p1 = Offset(tri.dx, tri.dy);
-    final p2 = Offset(p1.dx + size, p1.dy);
-    final p3 = Offset(p1.dx + size / 2, p1.dy - height);
+    final Offset p1 = Offset(tri.dx, tri.dy);
+    final Offset p2 = Offset(p1.dx + size, p1.dy);
+    final Offset p3 = Offset(p1.dx + size / 2, p1.dy - height);
 
-    // Calculate the area of the triangle p1p2p3
-    double areaP1P2P3 = 0.5 * (-p2.dy * p3.dx + p1.dy * (-p2.dx + p3.dx) + p1.dx * (p2.dy - p3.dy) + p2.dx * p3.dy);
+    double sign(Offset p1, Offset p2, Offset p3) {
+      return (p1.dx - p3.dx) * (p2.dy - p3.dy) - (p2.dx - p3.dx) * (p1.dy - p3.dy);
+    }
 
-    // Calculate the areas of the sub-triangles clickp1p2, clickp2p3, and clickp3p1
-    double areaClickP1P2 = 0.5 * (click.dy * (p1.dx - p2.dx) + click.dx * (p2.dy - p1.dy) + p1.dx * p2.dy - p1.dy * p2.dx);
-    double areaClickP2P3 = 0.5 * (click.dy * (p2.dx - p3.dx) + click.dx * (p3.dy - p2.dy) + p2.dx * p3.dy - p2.dy * p3.dx);
-    double areaClickP3P1 = 0.5 * (click.dy * (p3.dx - p1.dx) + click.dx * (p1.dy - p3.dy) + p3.dx * p1.dy - p3.dy * p1.dx);
+    double d1 = sign(click, p1, p2);
+    double d2 = sign(click, p2, p3);
+    double d3 = sign(click, p3, p1);
 
-    // Check if the click point is inside the triangle by comparing the areas
-    return (areaP1P2P3 == areaClickP1P2 + areaClickP2P3 + areaClickP3P1);
+    bool hasNegative = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    bool hasPositive = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
+    return !(hasNegative && hasPositive); // Point is inside if all signs are the same
   }
+
 
   bool isClicked(Offset o) {
     switch (shape) {
@@ -42,8 +44,8 @@ class ClickBlock {
       case Shape.circle:
         final ds = (o.dx - x) * (o.dx - x) + (o.dy - y) * (o.dy - y);
         return ds <= size * size;
-      case Shape.triangle:
-        return _insideTriangle(Offset(x, y), o, size);
+      // case Shape.triangle:
+      //   return _insideTriangle(Offset(x, y), o, size);
     }
   }
 
@@ -145,9 +147,9 @@ class Clicking extends CustomPainter {
         canvas.drawCircle(Offset(cb.x, cb.y), cb.size, paint);
         break;
 
-      case Shape.triangle:
-        _drawTriangle(canvas: canvas, cb: cb, paint: paint);
-        break;
+      // case Shape.triangle:
+      //   _drawTriangle(canvas: canvas, cb: cb, paint: paint);
+      //   break;
 
       case Shape.rect:
       canvas.drawRect(Rect.fromLTWH(cb.x, cb.y, cb.size, cb.size), paint);
