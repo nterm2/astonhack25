@@ -248,19 +248,21 @@ class ResultsPage extends StatelessWidget {
                         interval: 1, // Ensure consistent spacing
                       ),
                     ),
+                    rightTitles: AxisTitles(),
+                    topTitles: AxisTitles(
+                      axisNameWidget: Text("Overall progress"),
+                      axisNameSize: 25,
+                    ),
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 28,
+                        interval: 25,
                         getTitlesWidget: (value, _) {
-                          // Show y-axis values
-                          if (value % 20 == 0) { // Show every 20th value on y-axis
                             return Text(
                               value.toInt().toString(),
                               style: const TextStyle(fontSize: 12),
                             );
-                          }
-                          return const SizedBox.shrink();
                         },
                       ),
                     ),
