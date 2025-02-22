@@ -161,6 +161,132 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
 
+            // Bar chart
+            Expanded(
+              flex: 1,
+              child: BarChart(
+                BarChartData(
+                  maxY: 100, // Set the y-axis range from 0 to 100
+                  titlesData: FlTitlesData(
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 32,
+                        getTitlesWidget: (value, _) {
+                          // Map indices to category names
+                          const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                          if (value.toInt() < categories.length) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                categories[value.toInt()],
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink(); // Empty space for undefined indices
+                        },
+                        interval: 1, // Ensure consistent spacing
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 28,
+                        getTitlesWidget: (value, _) {
+                          // Show y-axis values
+                          if (value % 20 == 0) { // Show every 20th value on y-axis
+                            return Text(
+                              value.toInt().toString(),
+                              style: const TextStyle(fontSize: 12),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                    ),
+                  ),
+                  gridData: FlGridData(show: true), // Enable grid lines
+                  borderData: FlBorderData(show: true), // Show chart borders
+                  barGroups: [
+                    // Define data for each bar
+                    BarChartGroupData(
+                      x: 0, // Index for Reaction Average
+                      barRods: [
+                        BarChartRodData(
+                          toY: results.reactionAverage, // Reaction Average value
+                          color: Colors.blue,
+                          width: 16,
+                          borderRadius: BorderRadius.circular(4), // Rounded corners
+                        ),
+                      ],
+                    ),
+                    BarChartGroupData(
+                      x: 1, // Index for Memory Average
+                      barRods: [
+                        BarChartRodData(
+                          toY: results.memoryAverage, // Memory Average value
+                          color: Colors.green,
+                          width: 16,
+                          borderRadius: BorderRadius.circular(4), // Rounded corners
+                        ),
+                      ],
+                    ),
+                    BarChartGroupData(
+                      x: 2, // Index for Shape and Rotation Average
+                      barRods: [
+                        BarChartRodData(
+                          toY: results.psychometricAverage, // Shape and Rotation Average value
+                          color: Colors.orange,
+                          width: 16,
+                          borderRadius: BorderRadius.circular(4), // Rounded corners
+                        ),
+                      ],
+                    ),
+                    BarChartGroupData(
+                      x: 3, // Index for AI Average
+                      barRods: [
+                        BarChartRodData(
+                          toY: results.AIAverage, // AI Average value
+                          color: Colors.purple,
+                          width: 16,
+                          borderRadius: BorderRadius.circular(4), // Rounded corners
+                        ),
+                      ],
+                    ),
+                  ],
+                  barTouchData: BarTouchData(
+                    enabled: true,
+                    touchTooltipData: 
+                    
+                    BarTouchTooltipData(
+                      tooltipMargin: 8,
+                      tooltipPadding: const EdgeInsets.all(8),
+                      tooltipRoundedRadius: 8,
+
+                      fitInsideHorizontally: true,
+                      fitInsideVertically: true,
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                        return BarTooltipItem(
+                          '${categories[group.x]}: ${rod.toY.toStringAsFixed(1)}',
+                          const TextStyle(color: Colors.white),
+                        );
+                      },
+                    ),
+
+
+
+
+
+
+
+                  ),
+                ),
+              ),
+            ),
+
+
 
 
           ],
@@ -237,34 +363,3 @@ class Results {
     results.AIAverage
     */
 
-
-/*
-RadarChart(
-  RadarChartData(
-    dataSets: [
-      RadarDataSet(
-        dataEntries: baselineValues.map((value) => RadarEntry(value: value)).toList(),
-        borderColor: Colors.blue,
-        fillColor: Colors.blue.withOpacity(0.2),
-        borderWidth: 2,
-      ),
-      RadarDataSet(
-        dataEntries: todayValues.map((value) => RadarEntry(value: value)).toList(),
-        borderColor: Colors.green,
-        fillColor: Colors.green.withOpacity(0.2),
-        borderWidth: 2,
-      ),
-    ],
-    radarBorderData: BorderSide.none, // Remove black border
-    titlePositionPercentageOffset: 0.2, // Adjust title positions further out
-    getTitle: (index, _) {
-      return RadarChartTitle(
-        text: categories[index], // Use category names as titles
-      );
-    },
-    tickCount: 5, // Number of rings in the radar chart
-    tickBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for ticks
-    gridBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for grid lines
-  ),
-),
-*/
