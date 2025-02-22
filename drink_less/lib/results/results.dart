@@ -62,16 +62,66 @@ class ResultsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Progress')),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF388E3C), // Lighter dark green
+        elevation: 2, // Subtle shadow
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center, // Center the row contents
+          mainAxisSize: MainAxisSize.min, // Shrink to fit content
+          children: [
+            Container(
+              width: 40, // Adjust size of the circle
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white, // White background
+                shape: BoxShape.circle, // Circular shape
+                border: Border.all(
+                  color: const Color(0xFF006400), // Dark green outline
+                  width: 2, // Outline thickness
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0), // Optional padding inside the circle
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/logo/logo.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8), // Space between logo and text
+            const Text(
+              'Grow Sober',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white, // White text
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true, // Centers the Row in the AppBar
+      ),
+
+
+
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          bottom: 16.0,
+          top: 0.0, // Prevent padding above
+        ),
+
         child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              const SizedBox(height: 10),
 
-              Container(
+              Container(  
                 decoration: BoxDecoration(
                   color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
                   borderRadius: BorderRadius.circular(12), // Rounded corners
