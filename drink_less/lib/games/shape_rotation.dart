@@ -15,14 +15,11 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-    : question = Image.asset("assets/images/q$qn/Q.png"),
-      answer = Image.asset("assets/images/q$qn/Answer.png"),
-      options =
-          [
-            "A",
-            "B",
-            "D",
-          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
+      : question = Image.asset("assets/images/q$qn/Q.png"),
+        answer = Image.asset("assets/images/q$qn/Answer.png"),
+        options = ["A", "B", "D"]
+            .map((n) => Image.asset("assets/images/q$qn/$n.png"))
+            .toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -33,35 +30,53 @@ class SAR {
 }
 
 class _ShapeRotationState extends State<ShapeRotation> {
+  bool showAll = true; // Initially show all cards
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        showAll = false; // Hide the cards after 2 seconds
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final sar = SAR(1);
     return Scaffold(
-      appBar: AppBar(title: Text("Shapes and rotation")),
+      appBar: AppBar(title: Text("Shapes and Rotation")),
       body: Column(
         children: [
           Padding(padding: EdgeInsets.all(20), child: sar.question),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:
-                sar
-                    .getAnswers()
-                    .map(
-                      (c) => Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              ElevatedButton(onPressed: () {
-                                if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                              }, child: c.$1),
-                              Text(c.$2),
-                            ],
-                          ),
-                        ),
+            children: sar
+                .getAnswers()
+                .map(
+                  (c) => Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: showAll
+                            ? null // Disable interaction while cards are visible
+                            : () {
+                          if (c.$1 == sar.answer) {
+                            print("RIGHT ANSWER");
+                          }
+                        },
+                        child: showAll ? c.$1 : Icon(Icons.help), // Show image or placeholder
                       ),
-                    )
-                    .toList(),
+                      Text(c.$2),
+                    ],
+                  ),
+                ),
+              ),
+            )
+                .toList(),
           ),
         ],
       ),
