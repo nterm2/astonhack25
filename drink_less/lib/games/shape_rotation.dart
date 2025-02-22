@@ -2,6 +2,9 @@ import 'package:drink_less/pages/start_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 class ShapeRotation extends StatefulWidget {
   final int questionNumber;
 
@@ -78,7 +81,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
     final sar = SAR(widget.questionNumber);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Shapes and Rotation")),
+      appBar: CustomAppBar(),
       body: gameStarted
           ? Column(
         children: [
@@ -119,6 +122,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
           : Center(
         child: CircularProgressIndicator(), // Shows a loader until the modal is dismissed
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

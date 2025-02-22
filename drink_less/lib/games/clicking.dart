@@ -2,7 +2,10 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum Shape { rect, circle}
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
+enum Shape { rect, circle }
 
 class ClickBlock {
   double x;

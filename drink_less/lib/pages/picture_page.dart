@@ -2,6 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:drink_less/pages/take_picture.dart';
 import 'package:flutter/material.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 class PicturePage extends StatefulWidget {
   const PicturePage({super.key});
 
@@ -25,10 +28,12 @@ class _PicturePageState extends State<PicturePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(),
       body: Column(children: [Text("Take picture")]),
       floatingActionButton: FloatingActionButton(
         onPressed: () async => await takePicture(context),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
