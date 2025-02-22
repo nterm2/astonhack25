@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             FloatingActionButton(
-              onPressed: () => performScan('assets/test_image.jpg'),
+              onPressed: () => debugPrint('In progress!'),
               child: Icon(Icons.info),
             ),
           ],

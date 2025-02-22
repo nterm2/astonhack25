@@ -17,11 +17,12 @@ CLIENT = InferenceHTTPClient(
     api_key="22tzVfDkBC7oIorFHU2Y"
 )
 
-try:
-    result = CLIENT.infer(sys.argv[1], model_id="drunk-or-sober-iwnwj/1")
+def scan_image(image_path : str):
+    try:
+        result = CLIENT.infer(image_path, model_id="drunk-or-sober-iwnwj/1")
 
-    print(result)
-except Exception as e:
-    print(e)
+        print(result)
+    except Exception as e:
+        print(e)
 
 # python detect_drunk [IMAGE_FILE_PATH]
