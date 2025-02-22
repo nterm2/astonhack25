@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 
-Future<void> getFaceScan(String assetPath) async {
+Future<String?> getFaceScan(String assetPath) async {
     try {
       final data = await rootBundle.load(assetPath);
 
@@ -38,13 +38,16 @@ Future<void> getFaceScan(String assetPath) async {
 
       if (response.statusCode == 200) {
         debugPrint('Success: ${response.body}');
+        return response.body;
       } else {
         debugPrint(
             'Error: Status Code ${response.statusCode}, Response: ${response.body}'
         );
+        return "An error occurred while fetching data";
       }
     } catch (e) {
       debugPrint('Exception: ${e.toString()}');
+      return "An error occurred while fetching data";
     }
 }
 
