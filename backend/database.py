@@ -1,7 +1,7 @@
 import sqlite3  
 
 # create table 
-def createTables():
+def createDatabase():
     connection = sqlite3.connect("database.db")
     cursor = connection.cursor()
 
@@ -51,9 +51,9 @@ def getWeekAverage():
 
     cursor.execute(""" 
         SELECT 
-            AVG(reactionTime) AS averageReactionTime 
-            AVG(memoryMatch) AS averageMemoryMatch  
-            AVG(psychometric) AS averagePsychometric
+            AVG(reactionTime) AS averageReactionTime, 
+            AVG(memoryMatch) AS averageMemoryMatch,  
+            AVG(psychometric) AS averagePsychometric,
             AVG(AIdetection) AS averageAIdetection 
         FROM (
             SELECT * FROM Results ORDER BY day DESC LIMIT 7
@@ -71,9 +71,9 @@ def getOverallProgress():
 
     cursor.execute("""    
         SELECT 
-            AVG(reactionTime) AS averageReactionTime 
-            AVG(memoryMatch) AS averageMemoryMatch  
-            AVG(psychometric) AS averagePsychometric
+            AVG(reactionTime) AS averageReactionTime, 
+            AVG(memoryMatch) AS averageMemoryMatch,  
+            AVG(psychometric) AS averagePsychometric,
             AVG(AIdetection) AS averageAIdetection  
         FROM Results
     """)
@@ -81,3 +81,54 @@ def getOverallProgress():
     overallProgressResult = cursor.fetchone() 
     connection.close() 
     return overallProgressResult
+
+# get day streak
+def getStreak(): 
+    connection = sqlite3.connect("database.db") 
+    cursor = connection.cursor()  
+
+    cursor.execute("""  
+        SELECT day
+        FROM Results     
+        ORDER BY day DESC    
+        LIMIT 1
+    """)
+
+    currentStreak = cursor.fetchone()
+
+    connection.close()
+    return currentStreak 
+
+"""TESTING"""
+
+"""
+createDatabase() 
+
+#insertResults(70, 70, 70, 70, "Sober")
+#insertResults(80, 80, 80, 80, "Sober")
+#insertResults(40, 40, 40, 60, "Drunk")
+#insertResults(50, 50, 50, 50, "Drunk")
+#insertResults(30, 30, 30, 70, "Drunk")
+#insertResults(30, 30, 30, 70, "Drunk")
+#insertResults(30, 30, 30, 70, "Drunk")
+#insertResults(70, 70, 70, 70, "Sober")
+#insertResults(70, 70, 70, 70, "Sober")
+#insertResults(70, 70, 70, 70, "Sober")
+
+print(getStreak())
+
+print("\n")
+print("\n")
+
+print(getLatestResults())
+
+print("\n")
+print("\n")
+
+print(getWeekAverage())
+
+print("\n")
+print("\n")
+
+print(getOverallProgress())
+"""
