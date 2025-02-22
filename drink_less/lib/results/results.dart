@@ -46,6 +46,17 @@ class ResultsPage extends StatelessWidget {
       results.todayAIResult,
     ];
 
+    // Line chart data
+    final List<FlSpot> lineChartPoints = [
+      FlSpot(1, results.day1),
+      FlSpot(2, results.day2),
+      FlSpot(3, results.day3),
+      FlSpot(4, results.day4),
+      FlSpot(5, results.day5),
+      FlSpot(6, results.day6),
+      FlSpot(7, results.day7),
+    ];
+
     return Scaffold(
       appBar: AppBar(title: const Text('Results Page')),
       body: Padding(
@@ -82,6 +93,8 @@ class ResultsPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
+
+            // radar chart
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(50),
@@ -142,6 +155,62 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
             ),
+
+
+            // line chart
+            Expanded(
+              flex: 1,
+              child: LineChart(
+                LineChartData(
+                  maxY: 100,
+                  minY: 0,
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: lineChartPoints, // Data points for the chart
+                      isCurved: true, // Smooth line
+                      barWidth: 4,
+                      color: Colors.green,
+                      dotData: FlDotData(show: true), // Show dots on points
+                    ),
+                  ],
+                  titlesData: FlTitlesData(
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 32,
+                        getTitlesWidget: (value, _) {
+                          // Display days as singular digits
+                          return Text(
+                            value.toInt().toString(), // Show only integer values
+                            style: const TextStyle(fontSize: 12),
+                          );
+                        },
+                        interval: 1, // Singular gaps between day labels
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 28,
+                        getTitlesWidget: (value, _) {
+                          // Show y-axis values
+                          return Text(
+                            value.toInt().toString(),
+                            style: const TextStyle(fontSize: 12),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  gridData: FlGridData(show: true),
+                  borderData: FlBorderData(show: true),
+                  lineTouchData: LineTouchData(enabled: true), // Allow touch interactions
+                ),
+              ),
+            ),
+
+
+
           ],
         ),
       ),
