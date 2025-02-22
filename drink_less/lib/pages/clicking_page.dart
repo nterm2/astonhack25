@@ -1,4 +1,5 @@
 import 'package:drink_less/games/clicking.dart';
+import 'package:drink_less/games/memory_match_game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,13 @@ class _ClickingPageState extends State<ClickingPage> {
           tween: Tween<double>(begin: 0.0, end: 1.0),
           duration: Duration(seconds: 100),
           builder: (context2, value, child) {
-            cs.update(MediaQuery.of(context2).size, value);
+            if (cs.update(MediaQuery.of(context2).size, value)) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MemoryMatchGame()),
+                );
+              });
+            }
             return CustomPaint(size: Size.infinite, painter: Clicking(cs: cs));
           },
         ),

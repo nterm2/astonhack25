@@ -60,6 +60,8 @@ class ClickBlock {
 }
 
 class ClickingState {
+  int count = 0;
+  int destroyed = 0;
   double odt = 0;
   List<ClickBlock> points = [];
   List<ClickBlock> correct = [];
@@ -72,6 +74,7 @@ class ClickingState {
       correct.add(points[i]);
       points.removeAt(i);
       --i;
+      ++destroyed;
     }
   }
 
@@ -79,15 +82,20 @@ class ClickingState {
     final deltaT = dt - odt;
     odt = dt;
 
-    for (var p in points) {
-      p.y += deltaT * p.change;
+    for (int i = 0; i < points.length; ++i) {
+      points[i].y += deltaT * points[i].change;
+      if (points[i].y - points[i].change > size.height) {
+        points.removeAt(i);
+        --i;
+        ++destroyed;
+      }
     }
 
     final last = points.lastOrNull;
     if (last == null || last.y > size.height / 4 && Random().nextBool()) {
       _addNewBlock(size);
     }
-    return true;
+    return count >= 20;
   }
 
   void _addNewBlock(Size size) {
@@ -110,13 +118,17 @@ class ClickingState {
         shape: shape
       ),
     );
+    ++count;
   }
 
-  bool hasFailed(Size size) {
-    final res = points.firstOrNull;
-    if (res == null) return true;
-    return res.y > size.height;
-  }
+//  bool hasFinished(Size size) {
+//    return count >= 20;
+
+//    final res = points.firstOrNull;
+//    if (res == null) return true;
+//    return res.y > size.height;
+//  }
+
 }
 
 class Clicking extends CustomPainter {
