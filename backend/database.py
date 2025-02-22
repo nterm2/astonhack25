@@ -49,20 +49,20 @@ def getWeekAverage():
     connection = sqlite3.connect("database.db")
     cursor = connection.cursor() 
 
-    cursor.execute(""" 
+    cursor.execute("""  
         SELECT 
-            AVG(reactionTime) AS averageReactionTime, 
-            AVG(memoryMatch) AS averageMemoryMatch,  
-            AVG(psychometric) AS averagePsychometric,
-            AVG(AIdetection) AS averageAIdetection 
-        FROM (
+            day, 
+            (reactionTime + memoryMatch + psychometric + AIdetection) / 4 AS dayAverage 
+        FROM (   
             SELECT * FROM Results ORDER BY day DESC LIMIT 7
         )
+        ORDER BY day DESC
     """)
 
-    latestWeekResult = cursor.fetchone()
+
+    latestWeekResults = cursor.fetchall()
     connection.close()
-    return latestWeekResult 
+    return latestWeekResults
 
 # get overall average 
 def getOverallProgress(): 
@@ -98,6 +98,8 @@ def getStreak():
 
     connection.close()
     return currentStreak 
+
+print(getWeekAverage())
 
 """TESTING"""
 
