@@ -1,5 +1,6 @@
 import 'package:drink_less/games/memory_match_game.dart';
 import 'package:drink_less/games/shape_rotation.dart';
+import 'package:drink_less/games/tree.dart';
 import 'package:drink_less/pages/clicking_page.dart';
 import 'package:drink_less/pages/picture_page.dart';
 import 'package:drink_less/pages/start_page.dart';
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: ShapeRotation(),
+      home: Scaffold(
+        body: TreeWidget(n: 10),
+      ),
     );
   }
 }
