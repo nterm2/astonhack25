@@ -37,11 +37,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Scaffold(
-
-        //body: ShapeRotation(questionNumber: 1,),
-        body: MemoryMatchGame(),
-      ),
+      home: StartTestPage(),
     );
   }
 }

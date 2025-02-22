@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
 
-void main() {
-  runApp(MemoryMatchGame());
-}
-
 class MemoryMatchGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: GameScreen());
+    return GameScreen();
   }
 }
 
