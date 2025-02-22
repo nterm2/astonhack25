@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 class MemoryMatchGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -151,7 +154,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Memory Match Game')),
+      appBar: CustomAppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -208,6 +211,7 @@ class _GameScreenState extends State<GameScreen> {
           SizedBox(height: 20),
         ],
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 
