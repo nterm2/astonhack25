@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
 
-void main() {
-  runApp(MemoryMatchGame());
-}
-
 class MemoryMatchGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: GameScreen());
+    return GameScreen();
   }
 }
 
@@ -28,10 +24,11 @@ class _GameScreenState extends State<GameScreen> {
   int matchedPairs = 0;
   int attempts = 0;
   int timeLeft = 30;
-  Timer? timer; // Timer is nullable to prevent errors
+  Timer? timer;
   bool gameOver = false;
-  bool showAllTiles = true; // Show tiles initially for memorization
-  bool gameStarted = false; // Prevents actions before game starts
+  bool showAllTiles = true;
+  bool gameStarted = false;
+  bool isChecking = false; // Prevents excessive taps
 
   @override
   void initState() {
@@ -40,7 +37,6 @@ class _GameScreenState extends State<GameScreen> {
     tiles.shuffle(Random());
     revealed = List.generate(16, (index) => false);
 
-    // Show modal before starting game
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showStartDialog();
     });
@@ -49,18 +45,16 @@ class _GameScreenState extends State<GameScreen> {
   void _showStartDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevents accidental dismissal
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Welcome to Memory Match!'),
-          content: Text(
-            'Try to match all pairs before time runs out. Good luck!',
-          ),
+          content: Text('Try to match all pairs before time runs out. Good luck!'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                _startGame(); // Start the game
+                Navigator.of(context).pop();
+                _startGame();
               },
               child: Text('OK'),
             ),
@@ -73,13 +67,13 @@ class _GameScreenState extends State<GameScreen> {
   void _startGame() {
     setState(() {
       gameStarted = true;
-      showAllTiles = true; // Show all tiles for 2 seconds
+      showAllTiles = true;
     });
 
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
-          showAllTiles = false; // Hide tiles after 2 seconds
+          showAllTiles = false;
         });
       }
     });
@@ -110,33 +104,43 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void tileTapped(int index) {
-    if (!gameStarted || revealed[index] || firstIndex == index || gameOver || showAllTiles) return;
+    if (!gameStarted || isChecking || revealed[index] || firstIndex == index || gameOver || showAllTiles) {
+      return; // Prevent clicking when checking
+    }
 
     setState(() {
       if (firstIndex == -1) {
         firstIndex = index;
-      } else {
+      } else if (secondIndex == -1) {
         secondIndex = index;
+        isChecking = true; // Lock interactions while checking
         attempts++;
 
         if (tiles[firstIndex] == tiles[secondIndex]) {
           revealed[firstIndex] = true;
           revealed[secondIndex] = true;
           matchedPairs++;
-          firstIndex = -1;
-          secondIndex = -1;
+          Future.delayed(Duration(milliseconds: 300), () {
+            if (mounted) {
+              setState(() {
+                firstIndex = -1;
+                secondIndex = -1;
+                isChecking = false;
+              });
+            }
+          });
         } else {
           Future.delayed(Duration(seconds: 1), () {
             if (mounted) {
               setState(() {
                 firstIndex = -1;
                 secondIndex = -1;
+                isChecking = false;
               });
             }
           });
         }
 
-        // Check if the game is won
         if (matchedPairs == icons.length) {
           _endGame();
         }
@@ -209,10 +213,11 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    timer?.cancel(); // Ensure timer is disposed
+    timer?.cancel();
     super.dispose();
   }
 }
+
 
 class GameOverScreen extends StatelessWidget {
   @override
