@@ -72,6 +72,15 @@ class ResultsPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
+            const Text(
+              '''Tracking your journey is the first step toward change.
+            This section highlights how far you\'ve come and the goals you\'ve set for yourself.
+            Progress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
+            Keep going; you\'re doing something amazing for yourself.''',
+              style: TextStyle(fontSize: 14),
+            ),
+
+
 
             const SizedBox(height: 20),
 
@@ -150,6 +159,18 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: 40),
+
+            
+            const Text(
+              '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target. 
+              Even if today feels challenging, remember: it\'s about the effort, not perfection. 
+              Each choice you make today is a step closer to the future you envision for yourself. 
+              You’ve got this!''',
+              style: TextStyle(fontSize: 14),
+            ),
+            
+
             SizedBox(height: 40),
 
             const Text(
@@ -213,7 +234,19 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 40),
+            //const SizedBox(height: 200),
+
+            /*
+            const Text(
+              '''A week may feel like a small part of the bigger picture, but it's where real habits are built. 
+              This graph shows how consistent you’ve been and the progress you’ve made. 
+              Celebrate your wins and learn from the harder days. 
+              A single strong day can inspire the whole week, so keep moving forward—you're proving you can do it.''',
+              style: TextStyle(fontSize: 14),
+            ),
+            */
+
+            //SizedBox(height: 40),
 
             const Text(
               'Overall Progress',
@@ -338,6 +371,18 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
             ),
+
+            //const SizedBox(height: 200),
+
+            /*
+            const Text(
+              '''This is your story, and this graph captures the progress you've made over time in each area. 
+              These metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you. 
+              Every improvement, no matter how small, adds up. Be proud of how far you’ve come and know that your future is brighter 
+              because of the steps you’re taking today.''',
+              style: TextStyle(fontSize: 14),
+            ),
+            */
 
           ],
         ),
