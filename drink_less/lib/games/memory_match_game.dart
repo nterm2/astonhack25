@@ -49,7 +49,7 @@ class _GameScreenState extends State<GameScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Welcome to Memory Match!'),
-          content: Text('Try to match all pairs before time runs out. Good luck!'),
+          content: Text('In this test, you will be shown pairs of tiles. Your objective is to memorize the tiles’ locations and match them correctly. Pay attention to detail and try to remember the positions of the tiles!'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -70,7 +70,7 @@ class _GameScreenState extends State<GameScreen> {
       showAllTiles = true;
     });
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 10), () {
       if (mounted) {
         setState(() {
           showAllTiles = false;
@@ -152,7 +152,8 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Memory Match Game')),
-      body: Column(
+      body: 
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),

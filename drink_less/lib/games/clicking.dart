@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum Shape { rect, circle }
+enum Shape { rect, circle}
 
 class ClickBlock {
   double x;
@@ -12,14 +12,30 @@ class ClickBlock {
   Color color;
   Shape shape;
 
-  ClickBlock({
-    required this.x,
-    required this.y,
-    required this.change,
-    required this.color,
-    required this.size,
-    required this.shape,
-  });
+  /* destruction only */
+  double dt = 0;
+
+  bool _insideTriangle(Offset tri, Offset click, double size) {
+    final double height = (size * sqrt(3)) / 2.0;
+
+    final Offset p1 = Offset(tri.dx, tri.dy);
+    final Offset p2 = Offset(p1.dx + size, p1.dy);
+    final Offset p3 = Offset(p1.dx + size / 2, p1.dy - height);
+
+    double sign(Offset p1, Offset p2, Offset p3) {
+      return (p1.dx - p3.dx) * (p2.dy - p3.dy) - (p2.dx - p3.dx) * (p1.dy - p3.dy);
+    }
+
+    double d1 = sign(click, p1, p2);
+    double d2 = sign(click, p2, p3);
+    double d3 = sign(click, p3, p1);
+
+    bool hasNegative = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    bool hasPositive = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+    return !(hasNegative && hasPositive); // Point is inside if all signs are the same
+  }
+
 
   bool isClicked(Offset o) {
     switch (shape) {
@@ -28,116 +44,19 @@ class ClickBlock {
       case Shape.circle:
         final ds = (o.dx - x) * (o.dx - x) + (o.dy - y) * (o.dy - y);
         return ds <= size * size;
-    }
-  }
-}
-
-class ClickingState {
-  int count = 0;
-  int destroyed = 0;
-  double odt = 0;
-  double deltaT = 0;
-  List<ClickBlock> points = [];
-  List<ClickBlock> correct = [];
-
-  void onClick(Offset clickLocation) {
-    for (int i = 0; i < points.length; ++i) {
-      if (!points[i].isClicked(clickLocation)) continue;
-
-      correct.add(points[i]);
-      points.removeAt(i);
-      --i;
-      ++destroyed;
+      // case Shape.triangle:
+      //   return _insideTriangle(Offset(x, y), o, size);
     }
   }
 
-  bool update(Size size, double dt) {
-    deltaT = dt - odt;
-    odt = dt;
-
-    for (int i = 0; i < points.length; ++i) {
-      points[i].y += deltaT * points[i].change;
-      if (points[i].y - points[i].change > size.height) {
-        points.removeAt(i);
-        --i;
-        ++destroyed;
-      }
-    }
-
-    final last = points.lastOrNull;
-    if (last == null || last.y > size.height / 4 && Random().nextBool()) {
-      _addNewBlock(size);
-    }
-    return count >= 20;
-  }
-
-  void _addNewBlock(Size size) {
-    final rand = Random();
-    final sz = 50.0;
-    final shape = Shape.values[rand.nextInt(Shape.values.length)];
-    points.add(
-      ClickBlock(
-        x: rand.nextDouble() * (size.width - 100 - sz) + sz,
-        y: -sz,
-        change: rand.nextDouble() * 20000 + 20000,
-        color: Color.fromRGBO(
-          rand.nextInt(256),
-          rand.nextInt(256),
-          rand.nextInt(256),
-          1.0,
-        ),
-        size: shape == Shape.circle ? sz / 2 : sz,
-        shape: shape,
-      ),
-    );
-    ++count;
-  }
-}
-
-class Clicking extends CustomPainter {
-  final ClickingState cs;
-
-  Clicking({required this.cs});
-
-  void drawShape({required Canvas canvas, required ClickBlock cb}) {
-    final paint = Paint()..color = cb.color;
-    switch (cb.shape) {
-      case Shape.circle:
-        canvas.drawCircle(Offset(cb.x, cb.y), cb.size, paint);
-        break;
-      case Shape.rect:
-        canvas.drawRect(Rect.fromLTWH(cb.x, cb.y, cb.size, cb.size), paint);
-        break;
-    }
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (var p in cs.points) {
-      drawShape(canvas: canvas, cb: p);
-    }
-
-    for (var p in cs.correct) {
-      p.size -= cs.deltaT * 10000;
-      p.y += cs.deltaT * p.change;
-      if (p.size > 0) {
-        drawShape(canvas: canvas, cb: p);
-        continue;
-      }
-
-      cs.correct.remove(p);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) {
-    return true;
-  }
-}
-
-class ClickingGame extends StatefulWidget {
-  @override
-  _ClickingGameState createState() => _ClickingGameState();
+  ClickBlock({
+    required this.x,
+    required this.y,
+    required this.change,
+    required this.color,
+    required this.size,
+    required this.shape,
+  });
 }
 
 class _ClickingGameState extends State<ClickingGame> {
@@ -179,7 +98,7 @@ class _ClickingGameState extends State<ClickingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Clicking Game')),
+      appBar: CustomAppBar(),
       body: gameStarted
           ? GestureDetector(
         onTapDown: (TapDownDetails details) {
@@ -195,6 +114,7 @@ class _ClickingGameState extends State<ClickingGame> {
           : Center(
         child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
