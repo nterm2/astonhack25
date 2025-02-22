@@ -26,7 +26,17 @@ class ClickBlock {
     final p2 = Offset(p1.dx + size, p1.dy);
     final p3 = Offset(p1.dx + size / 2, p1.dy - height);
 
-    return _triangleArea(p1, p2, p3) == _triangleArea(click, p2, p3) + _triangleArea(p1, click, p3) + _triangleArea(p1, p2, click);
+    // Calculate the area of the triangle p1p2p3
+    double areaP1P2P3 = 0.5 * (-p2.dy * p3.dx + p1.dy * (-p2.dx + p3.dx) + p1.dx * (p2.dy - p3.dy) + p2.dx * p3.dy);
+
+    // Calculate the areas of the sub-triangles clickp1p2, clickp2p3, and clickp3p1
+    double areaClickP1P2 = 0.5 * (click.dy * (p1.dx - p2.dx) + click.dx * (p2.dy - p1.dy) + p1.dx * p2.dy - p1.dy * p2.dx);
+    double areaClickP2P3 = 0.5 * (click.dy * (p2.dx - p3.dx) + click.dx * (p3.dy - p2.dy) + p2.dx * p3.dy - p2.dy * p3.dx);
+    double areaClickP3P1 = 0.5 * (click.dy * (p3.dx - p1.dx) + click.dx * (p1.dy - p3.dy) + p3.dx * p1.dy - p3.dy * p1.dx);
+
+    // Check if the click point is inside the triangle by comparing the areas
+    return (areaP1P2P3 == areaClickP1P2 + areaClickP2P3 + areaClickP3P1);
+
   }
 
   bool isClicked(Offset o) {
