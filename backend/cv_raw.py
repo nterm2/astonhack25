@@ -5,6 +5,14 @@ CLIENT = InferenceHTTPClient(
     api_key="22tzVfDkBC7oIorFHU2Y"
 )
 
-result = CLIENT.infer('test_image.jpg', model_id="drunk-or-sober-iwnwj/1")
+def scan_image(image_path : str) -> dict:
+    try:
+        result = CLIENT.infer('test_image.jpg', model_id="drunk-or-sober-iwnwj/1")
 
-print(result)
+        print(result)
+
+        return result
+    except Exception as e:
+        print(e)
+
+        return {}
