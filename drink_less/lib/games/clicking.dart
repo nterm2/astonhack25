@@ -11,7 +11,6 @@ class ClickBlock {
   double change;
   Color color;
   Shape shape;
-  double dt = 0; // For destruction animation
 
   ClickBlock({
     required this.x,
@@ -37,6 +36,7 @@ class ClickingState {
   int count = 0;
   int destroyed = 0;
   double odt = 0;
+  double deltaT = 0;
   List<ClickBlock> points = [];
   List<ClickBlock> correct = [];
 
@@ -44,7 +44,6 @@ class ClickingState {
     for (int i = 0; i < points.length; ++i) {
       if (!points[i].isClicked(clickLocation)) continue;
 
-      points[i].dt = odt;
       correct.add(points[i]);
       points.removeAt(i);
       --i;
@@ -53,7 +52,7 @@ class ClickingState {
   }
 
   bool update(Size size, double dt) {
-    final deltaT = dt - odt;
+    deltaT = dt - odt;
     odt = dt;
 
     for (int i = 0; i < points.length; ++i) {
@@ -112,10 +111,6 @@ class Clicking extends CustomPainter {
     }
   }
 
-  double animateDestruct(double sz) {
-    return sz * sz * exp(-0.5 * sz);
-  }
-
   @override
   void paint(Canvas canvas, Size size) {
     for (var p in cs.points) {
@@ -123,7 +118,14 @@ class Clicking extends CustomPainter {
     }
 
     for (var p in cs.correct) {
-      drawShape(canvas: canvas, cb: p..size = p.size * animateDestruct((cs.odt - p.dt) * 0.01));
+      p.size -= cs.deltaT * 10000;
+      p.y += cs.deltaT * p.change;
+      if (p.size > 0) {
+        drawShape(canvas: canvas, cb: p);
+        continue;
+      }
+
+      cs.correct.remove(p);
     }
   }
 
