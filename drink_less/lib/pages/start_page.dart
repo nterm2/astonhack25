@@ -3,6 +3,9 @@ import 'package:drink_less/pages/picture_page.dart';
 import 'package:drink_less/pages/take_picture.dart';
 import 'package:flutter/material.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 class StartTestPage extends StatelessWidget {
   const StartTestPage({super.key});
  
@@ -21,13 +24,28 @@ class StartTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Welcome to Drink Less")),
+      appBar: CustomAppBar(),
       body: Center(
-        child: TextButton(
+        child: ElevatedButton(
           onPressed: () async => await takePicture(context),
-          child: Text("Start Test"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green, // Green background color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12), // Curved edges
+            ),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+          ),
+          child: Text(
+            "Start Test",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white, // White text
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
