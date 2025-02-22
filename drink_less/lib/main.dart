@@ -1,3 +1,4 @@
+import 'package:drink_less/games/clicking.dart';
 import 'package:drink_less/games/memory_match_game.dart';
 import 'package:drink_less/games/shape_rotation.dart';
 import 'package:drink_less/games/tree.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        body: TreeWidget(n: 10),
+        body: ShapeRotation(questionNumber: 1,),
       ),
     );
   }

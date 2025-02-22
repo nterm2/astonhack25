@@ -1,9 +1,12 @@
+import 'package:drink_less/pages/start_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 class ShapeRotation extends StatefulWidget {
-  const ShapeRotation({super.key});
+  final int questionNumber;
+
+  const ShapeRotation({super.key, this.questionNumber = 1});
 
   @override
   State<ShapeRotation> createState() => _ShapeRotationState();
@@ -15,11 +18,14 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-      : question = Image.asset("assets/images/q$qn/Q.png"),
-        answer = Image.asset("assets/images/q$qn/Answer.png"),
-        options = ["A", "B", "D"]
-            .map((n) => Image.asset("assets/images/q$qn/$n.png"))
-            .toList();
+    : question = Image.asset("assets/images/q$qn/Q.png"),
+      answer = Image.asset("assets/images/q$qn/Answer.png"),
+      options =
+          [
+            "B",
+            "C",
+            "D",
+          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -44,7 +50,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
 
   @override
   Widget build(BuildContext context) {
-    final sar = SAR(1);
+    final sar = SAR(widget.questionNumber);
     return Scaffold(
       appBar: AppBar(title: Text("Shapes and Rotation")),
       body: Column(
@@ -52,6 +58,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
           Padding(padding: EdgeInsets.all(20), child: sar.question),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+<<<<<<< HEAD
             children: sar
                 .getAnswers()
                 .map(
@@ -69,6 +76,40 @@ class _ShapeRotationState extends State<ShapeRotation> {
                           }
                         },
                         child: showAll ? c.$1 : Icon(Icons.help), // Show image or placeholder
+=======
+            children:
+                sar
+                    .getAnswers()
+                    .map(
+                      (c) => Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              widget.questionNumber < 5
+                                                  ? ShapeRotation(
+                                                    questionNumber:
+                                                        widget.questionNumber +
+                                                        1,
+                                                  )
+                                                  : StartTestPage(),
+                                    ),
+                                  );
+                                },
+                                child: c.$1,
+                              ),
+                              Text(c.$2),
+                            ],
+                          ),
+                        ),
+>>>>>>> 87aec380a732210422cf3c8418d9e9d87c6ff831
                       ),
                       Text(c.$2),
                     ],

@@ -10,15 +10,10 @@ class TreeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 100),
-      child: TweenAnimationBuilder(
-        tween: Tween<double>(begin: 1, end: 100),
-        duration: Duration(seconds: 60),
-        builder: (context, value, child) {
-          return CustomPaint(
-            size: Size.infinite,
-            painter: TreePainter(50 * value.toInt()),
-          );
-        },
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: TreePainter(n, true),
+        foregroundPainter: TreePainter(n, false),
       ),
     );
   }
@@ -26,67 +21,44 @@ class TreeWidget extends StatelessWidget {
 
 class TreePainter extends CustomPainter {
   final int n;
+  final bool blur;
 
+  TreePainter(this.n, this.blur);
 
-  TreePainter(this.n);
+  Color getColor(int days) {
+    final rand = Random();
+    return Color.fromRGBO(0, (rand.nextDouble() * 60 + 150).toInt(), 0, 1);
 
-  Offset getRandomPointInTriangle(Offset A, Offset B, Offset C) {
-    // Generate two random numbers between 0 and 1
-    double r1 = Random().nextDouble();
-    double r2 = Random().nextDouble();
+    // if (n == 1) {
+    //   return Color.fromRGBO(
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     1,
+    //   );
+    // }
 
-    // Barycentric coordinates
-    double lambda1 = 1 - sqrt(r1);
-    double lambda2 = sqrt(r1) * (1 - r2);
-    double lambda3 = sqrt(r1) * r2;
+    // if (n > 30) {
+    //   return Color.fromRGBO(0, (rand.nextDouble() * 60 + 150).toInt(), 0, 1);
+    // }
 
-    // Calculate the random point using the barycentric coordinates
-    double x = lambda1 * A.dx + lambda2 * B.dx + lambda3 * C.dx;
-    double y = lambda1 * A.dy + lambda2 * B.dy + lambda3 * C.dy;
-
-    return Offset(x, y);
+    // return Color.fromRGBO(255, 255, rand.nextInt(255), 1);
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final height = n / 2;
-    final width = n / 4;
-    final centre = size.width / 2;
-    final tWidth = width / 4;
-
-    final t1 = Offset(centre, 0);
-    final t2 = Offset(centre - width, height);
-    final t3 = Offset(centre + width, height);
-
-    final tPath =
-        Path()
-          ..moveTo(t1.dx, t1.dy)
-          ..lineTo(t2.dx, t2.dy)
-          ..lineTo(t3.dx, t3.dy)
-          ..close();
-
-    final leaves =
-        Paint()
-          ..color = Colors.green
-          ..style = PaintingStyle.fill;
-
-    final trunk =
-        Paint()
-          ..color = Colors.brown
-          ..style = PaintingStyle.fill;
-
-    canvas.drawPath(tPath, leaves);
-    canvas.drawRect(
-      Rect.fromLTWH(centre - tWidth, height, tWidth * 2, height / 4),
-      trunk,
-    );
-
     final rand = Random();
-    for (int i = 0; i < n / 50; ++i) {
+    for (int i = 0; i < n; ++i) {
+      final sz = rand.nextDouble() * 10;
       canvas.drawCircle(
-        getRandomPointInTriangle(t1, t2, t3),
-        n.toDouble() / 50,
-        Paint()..color = Color.fromRGBO(0, rand.nextInt(200) + 56, 0, 1),
+        Offset(
+          rand.nextDouble() * (size.width - 2 * sz) + sz,
+          rand.nextDouble() * (size.height - 2 * sz) + sz,
+        ),
+        sz,
+        Paint()
+          ..color = getColor(n)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur ? 10.0 : 2.0),
       );
     }
   }
