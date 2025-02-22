@@ -109,23 +109,43 @@ class _GameScreenState extends State<GameScreen> {
               ),
               itemCount: tiles.length,
               itemBuilder: (context, index) {
+                bool isRevealed = revealed[index] || firstIndex == index || secondIndex == index;
+
                 return GestureDetector(
                   onTap: () => tileTapped(index),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      revealed[index] || firstIndex == index || secondIndex == index
-                          ? tiles[index]
-                          : '?',
-                      style: TextStyle(fontSize: 32, color: Colors.white),
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 500),
+                    transitionBuilder: (widget, animation) {
+                      final rotateAnim = Tween(begin: pi, end: 0.0).animate(animation);
+                      return AnimatedBuilder(
+                        animation: rotateAnim,
+                        child: widget,
+                        builder: (context, child) {
+                          final isFlipped = rotateAnim.value >= pi / 2;
+                          return Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(rotateAnim.value),
+                            child: isFlipped ? Container() : child,
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      key: ValueKey(isRevealed),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        isRevealed ? tiles[index] : '?',
+                        style: TextStyle(fontSize: 32, color: Colors.white),
+                      ),
                     ),
                   ),
                 );
               },
+
             ),
           ),
           SizedBox(height: 20),
