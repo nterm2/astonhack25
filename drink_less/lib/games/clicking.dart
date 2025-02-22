@@ -2,6 +2,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 enum Shape { rect, circle }
 
 class ClickBlock {
@@ -179,7 +182,7 @@ class _ClickingGameState extends State<ClickingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Clicking Game')),
+      appBar: CustomAppBar(),
       body: gameStarted
           ? GestureDetector(
         onTapDown: (TapDownDetails details) {
@@ -195,6 +198,7 @@ class _ClickingGameState extends State<ClickingGame> {
           : Center(
         child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

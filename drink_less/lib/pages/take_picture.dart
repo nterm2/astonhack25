@@ -5,6 +5,10 @@ import 'package:camera/camera.dart';
 import 'package:drink_less/pages/clicking_page.dart';
 import 'package:flutter/material.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
+
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({super.key, required this.camera});
@@ -45,7 +49,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
+      appBar: CustomAppBar(),
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
@@ -138,6 +142,7 @@ class DisplayPictureScreen extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
