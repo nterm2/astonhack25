@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import 'package:drink_less/pages/start_page.dart';
+
 class ResultsPage extends StatelessWidget {
   const ResultsPage({Key? key}) : super(key: key);
 
@@ -30,10 +32,10 @@ class ResultsPage extends StatelessWidget {
 
     // Radar chart data
     final List<String> categories = [
-      'Reaction',
-      'Memory',
-      'Shape',
-      'AI Detection',
+      'Reaction Test',
+      'Match Test',
+      'Shape Test',
+      'Face Test',
     ];
     final List<double> baselineValues = [
       results.baseline.toDouble(),
@@ -284,7 +286,7 @@ class ResultsPage extends StatelessWidget {
                           reservedSize: 32,
                           getTitlesWidget: (value, _) {
                             // Map indices to category names
-                            const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                            const categories = ['Reaction Test', 'Match Test', 'Shape Test', 'Face Test'];
                             if (value.toInt() < categories.length) {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
@@ -374,7 +376,7 @@ class ResultsPage extends StatelessWidget {
                       
                       BarTouchTooltipData(
                         getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                          const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                          const categories = ['Reaction Test', 'Match Test', 'Shape Test', 'Face Test'];
                           return BarTooltipItem(
                             '${categories[group.x]}: ${rod.toY.toStringAsFixed(1)}',
                             const TextStyle(color: Colors.white),
@@ -409,7 +411,33 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
 
+              const SizedBox(height: 10),
 
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartTestPage()), // Link to StartTestPage
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green, // Green background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // Curved edges
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                ),
+                child: Text(
+                  'Finish',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white, // White text
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
 
             ],
           ),
