@@ -63,330 +63,276 @@ class ResultsPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Your Progress')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const Text(
-              'Your Progress',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+        child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const Text(
+                'Your Progress',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                '''Tracking your journey is the first step toward change.
+                This section highlights how far you\'ve come and the goals you\'ve set for yourself.
+                Progress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
+                Keep going; you\'re doing something amazing for yourself.''',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Today\'s Performance',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
 
-            const Text(
-              '''Tracking your journey is the first step toward change.
-            This section highlights how far you\'ve come and the goals you\'ve set for yourself.
-            Progress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
-            Keep going; you\'re doing something amazing for yourself.''',
-              style: TextStyle(fontSize: 14),
-            ),
-
-
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'Today\'s Performance',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-            // radar chart
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.zero,
-                child: RadarChart(
-                  duration: Duration(seconds: 1),
-                  curve: Curves.easeIn,
-                  RadarChartData(
-                    dataSets: [
-                      RadarDataSet(
-                        dataEntries:
-                            baselineValues
-                                .map((value) => RadarEntry(value: value))
-                                .toList(),
-                        borderColor: Colors.blue,
-                        fillColor: Colors.blue.withOpacity(0.2),
-                        borderWidth: 2,
-                        entryRadius: 4, // Add points on the blue line
+              // radar chart
+              SizedBox(
+                height: 300, // Set a fixed height for charts
+                child: Padding(
+                  padding: EdgeInsets.zero,
+                  child: RadarChart(
+                    duration: Duration(seconds: 1),
+                    curve: Curves.easeIn,
+                    RadarChartData(
+                      dataSets: [
+                        RadarDataSet(
+                          dataEntries:
+                              baselineValues.map((value) => RadarEntry(value: value)).toList(),
+                          borderColor: Colors.blue,
+                          fillColor: Colors.blue.withOpacity(0.2),
+                          borderWidth: 2,
+                          entryRadius: 4, // Add points on the blue line
+                        ),
+                        RadarDataSet(
+                          dataEntries:
+                              todayValues.map((value) => RadarEntry(value: value)).toList(),
+                          borderColor: Colors.green,
+                          fillColor: Colors.green.withOpacity(0.2),
+                          borderWidth: 2,
+                          entryRadius: 4, // Add points on the green line
+                        ),
+                      ],
+                      radarBorderData: BorderSide.none,
+                      titlePositionPercentageOffset: 0.2,
+                      getTitle: (index, _) {
+                        return RadarChartTitle(
+                          text: categories[index],
+                        );
+                      },
+                      tickCount: 4,
+                      ticksTextStyle: TextStyle(
+                        color: Colors.transparent,
+                        fontSize: 12,
                       ),
-                      RadarDataSet(
-                        dataEntries:
-                            todayValues
-                                .map((value) => RadarEntry(value: value))
-                                .toList(),
-                        borderColor: Colors.green,
-                        fillColor: Colors.green.withOpacity(0.2),
-                        borderWidth: 2,
-                        entryRadius: 4, // Add points on the green line
+                      tickBorderData: BorderSide(
+                        color: Colors.grey.withOpacity(0.5),
                       ),
-                      RadarDataSet(
-                        dataEntries: [100, 100, 100, 100].map((v) => RadarEntry(value: v.toDouble())).toList(),
-                        borderColor: Color.fromRGBO(0, 0, 0, 0),
-                        fillColor: Color.fromRGBO(0, 0, 0, 0),
-                        borderWidth: null,
-                        entryRadius: null
-                      )
+                      gridBorderData: BorderSide(
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                      radarBackgroundColor: Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              const Text(
+                '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
+                Even if today feels challenging, remember: it\'s about the effort, not perfection. 
+                Each choice you make today is a step closer to the future you envision for yourself.
+                You’ve got this!''',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 40),
+              const Text(
+                'This Week\'s Performance',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+
+              // Line chart
+              SizedBox(
+                height: 300, // Set a fixed height for charts
+                child: LineChart(
+                  LineChartData(
+                    maxY: 100,
+                    minY: 0,
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: lineChartPoints,
+                        // Data points for the chart
+                        isCurved: true,
+                        // Smooth line
+                        barWidth: 4,
+                        color: Colors.green,
+                        dotData: FlDotData(show: true), // Show dots on points
+                      ),
                     ],
-                    radarBorderData: BorderSide.none,
-                    // Remove black border
-                    titlePositionPercentageOffset: 0.2,
-                    // Adjust title positions further out
-                    getTitle: (index, _) {
-                      return RadarChartTitle(
-                        text: categories[index], // Use category names as titles
-                      );
-                    },
-
-                    tickCount: 4,
-                    ticksTextStyle: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 0),
-                      fontSize: 12,
-                    ),
-                    // Tick label styling
-                    tickBorderData: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                    // Style for ticks
-                    gridBorderData: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                    // Style for grid lines
-                    radarBackgroundColor:
-                        Colors.transparent, // Transparent background
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            
-            const Text(
-              '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target. 
-              Even if today feels challenging, remember: it\'s about the effort, not perfection. 
-              Each choice you make today is a step closer to the future you envision for yourself. 
-              You’ve got this!''',
-              style: TextStyle(fontSize: 14),
-            ),
-            
-
-            SizedBox(height: 40),
-
-            const Text(
-              'This Week\'s Performance',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-            Expanded(
-              flex: 1,
-              child: LineChart(
-                LineChartData(
-                  maxY: 100,
-                  minY: 0,
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: lineChartPoints,
-                      // Data points for the chart
-                      isCurved: true,
-                      // Smooth line
-                      barWidth: 4,
-                      color: Colors.green,
-                      dotData: FlDotData(show: true), // Show dots on points
-                    ),
-                  ],
-                  titlesData: FlTitlesData(
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 32,
-                        interval: 1, // Singular gaps between day labels
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 32,
+                          interval: 1, // Singular gaps between day labels
+                        ),
                       ),
-                    ),
-                    topTitles: AxisTitles(
-                      axisNameWidget: Text(""),
-                      axisNameSize: 0,
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        interval: 25,
-                        showTitles: true,
-                        reservedSize: 28,
-                        getTitlesWidget: (value, _) {
-                          // Show y-axis values
-                          return Text(
-                            value.toInt().toString(),
-                            style: const TextStyle(fontSize: 12),
-                          );
-                        },
+                      topTitles: AxisTitles(
+                        axisNameWidget: Text(""),
+                        axisNameSize: 0,
                       ),
-                    ),
-                    rightTitles: AxisTitles(),
-                  ),
-                  gridData: FlGridData(show: true),
-                  borderData: FlBorderData(show: true),
-                  lineTouchData: LineTouchData(
-                    enabled: true,
-                  ), // Allow touch interactions
-                ),
-              ),
-            ),
-
-            //const SizedBox(height: 200),
-
-            /*
-            const Text(
-              '''A week may feel like a small part of the bigger picture, but it's where real habits are built. 
-              This graph shows how consistent you’ve been and the progress you’ve made. 
-              Celebrate your wins and learn from the harder days. 
-              A single strong day can inspire the whole week, so keep moving forward—you're proving you can do it.''',
-              style: TextStyle(fontSize: 14),
-            ),
-            */
-
-            //SizedBox(height: 40),
-
-            const Text(
-              'Overall Progress',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-
-            // Bar chart
-            Expanded(
-              flex: 1,
-              child: BarChart(
-                BarChartData(
-                  maxY: 100, // Set the y-axis range from 0 to 100
-                  titlesData: FlTitlesData(
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 32,
-                        getTitlesWidget: (value, _) {
-                          // Map indices to category names
-                          const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
-                          if (value.toInt() < categories.length) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                categories[value.toInt()],
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink(); // Empty space for undefined indices
-                        },
-                        interval: 1, // Ensure consistent spacing
-                      ),
-                    ),
-                    rightTitles: AxisTitles(),
-                    topTitles: AxisTitles(
-                      axisNameWidget: Text(""),
-                      axisNameSize: 0,
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 28,
-                        interval: 25,
-                        getTitlesWidget: (value, _) {
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          interval: 25,
+                          showTitles: true,
+                          reservedSize: 28,
+                          getTitlesWidget: (value, _) {
+                            // Show y-axis values
                             return Text(
                               value.toInt().toString(),
                               style: const TextStyle(fontSize: 12),
                             );
-                        },
+                          },
+                        ),
                       ),
+                      rightTitles: AxisTitles(),
                     ),
-                  ),
-                  gridData: FlGridData(show: true), // Enable grid lines
-                  borderData: FlBorderData(show: true), // Show chart borders
-                  barGroups: [
-                    // Define data for each bar
-                    BarChartGroupData(
-                      x: 0, // Index for Reaction Average
-                      barRods: [
-                        BarChartRodData(
-                          toY: results.reactionAverage, // Reaction Average value
-                          color: Colors.blue,
-                          width: 16,
-                          borderRadius: BorderRadius.circular(4), // Rounded corners
-                        ),
-                      ],
-                    ),
-                    BarChartGroupData(
-                      x: 1, // Index for Memory Average
-                      barRods: [
-                        BarChartRodData(
-                          toY: results.memoryAverage, // Memory Average value
-                          color: Colors.green,
-                          width: 16,
-                          borderRadius: BorderRadius.circular(4), // Rounded corners
-                        ),
-                      ],
-                    ),
-                    BarChartGroupData(
-                      x: 2, // Index for Shape and Rotation Average
-                      barRods: [
-                        BarChartRodData(
-                          toY: results.psychometricAverage, // Shape and Rotation Average value
-                          color: Colors.orange,
-                          width: 16,
-                          borderRadius: BorderRadius.circular(4), // Rounded corners
-                        ),
-                      ],
-                    ),
-                    BarChartGroupData(
-                      x: 3, // Index for AI Average
-                      barRods: [
-                        BarChartRodData(
-                          toY: results.AIAverage, // AI Average value
-                          color: Colors.purple,
-                          width: 16,
-                          borderRadius: BorderRadius.circular(4), // Rounded corners
-                        ),
-                      ],
-                    ),
-                  ],
-                  barTouchData: BarTouchData(
-                    enabled: true,
-                    touchTooltipData: 
-                    
-                    
-                    BarTouchTooltipData(
-                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
-                        return BarTooltipItem(
-                          '${categories[group.x]}: ${rod.toY.toStringAsFixed(1)}',
-                          const TextStyle(color: Colors.white),
-                        );
-                      },
-                    ),
-
+                    gridData: FlGridData(show: true),
+                    borderData: FlBorderData(show: true),
+                    lineTouchData: LineTouchData(
+                      enabled: true,
+                    ), // Allow touch interactions
                   ),
                 ),
               ),
-            ),
+              const SizedBox(height: 40),
+              const Text(
+                'Overall Progress',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
 
-            //const SizedBox(height: 200),
+              // Bar chart
+              SizedBox(
+                height: 300, // Set a fixed height for charts
+                child: BarChart(
+                  BarChartData(
+                    maxY: 100, // Set the y-axis range from 0 to 100
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 32,
+                          getTitlesWidget: (value, _) {
+                            // Map indices to category names
+                            const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                            if (value.toInt() < categories.length) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  categories[value.toInt()],
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink(); // Empty space for undefined indices
+                          },
+                          interval: 1, // Ensure consistent spacing
+                        ),
+                      ),
+                      rightTitles: AxisTitles(),
+                      topTitles: AxisTitles(
+                        axisNameWidget: Text(""),
+                        axisNameSize: 0,
+                      ),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 28,
+                          interval: 25,
+                          getTitlesWidget: (value, _) {
+                              return Text(
+                                value.toInt().toString(),
+                                style: const TextStyle(fontSize: 12),
+                              );
+                          },
+                        ),
+                      ),
+                    ),
+                    gridData: FlGridData(show: true), // Enable grid lines
+                    borderData: FlBorderData(show: true), // Show chart borders
+                    barGroups: [
+                      // Define data for each bar
+                      BarChartGroupData(
+                        x: 0, // Index for Reaction Average
+                        barRods: [
+                          BarChartRodData(
+                            toY: results.reactionAverage, // Reaction Average value
+                            color: Colors.blue,
+                            width: 16,
+                            borderRadius: BorderRadius.circular(4), // Rounded corners
+                          ),
+                        ],
+                      ),
+                      BarChartGroupData(
+                        x: 1, // Index for Memory Average
+                        barRods: [
+                          BarChartRodData(
+                            toY: results.memoryAverage, // Memory Average value
+                            color: Colors.green,
+                            width: 16,
+                            borderRadius: BorderRadius.circular(4), // Rounded corners
+                          ),
+                        ],
+                      ),
+                      BarChartGroupData(
+                        x: 2, // Index for Shape and Rotation Average
+                        barRods: [
+                          BarChartRodData(
+                            toY: results.psychometricAverage, // Shape and Rotation Average value
+                            color: Colors.orange,
+                            width: 16,
+                            borderRadius: BorderRadius.circular(4), // Rounded corners
+                          ),
+                        ],
+                      ),
+                      BarChartGroupData(
+                        x: 3, // Index for AI Average
+                        barRods: [
+                          BarChartRodData(
+                            toY: results.AIAverage, // AI Average value
+                            color: Colors.purple,
+                            width: 16,
+                            borderRadius: BorderRadius.circular(4), // Rounded corners
+                          ),
+                        ],
+                      ),
+                    ],
+                    barTouchData: BarTouchData(
+                      enabled: true,
+                      touchTooltipData: 
+                      
+                      
+                      BarTouchTooltipData(
+                        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                          const categories = ['Reaction', 'Memory', 'Shape', 'AI'];
+                          return BarTooltipItem(
+                            '${categories[group.x]}: ${rod.toY.toStringAsFixed(1)}',
+                            const TextStyle(color: Colors.white),
+                          );
+                        },
+                      ),
 
-            /*
-            const Text(
-              '''This is your story, and this graph captures the progress you've made over time in each area. 
-              These metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you. 
-              Every improvement, no matter how small, adds up. Be proud of how far you’ve come and know that your future is brighter 
-              because of the steps you’re taking today.''',
-              style: TextStyle(fontSize: 14),
-            ),
-            */
-
-          ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+
     );
   }
 }
