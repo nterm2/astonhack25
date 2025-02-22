@@ -18,14 +18,14 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-    : question = Image.asset("assets/images/q$qn/Q.png"),
-      answer = Image.asset("assets/images/q$qn/Answer.png"),
-      options =
-          [
-            "B",
-            "C",
-            "D",
-          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
+      : question = Image.asset("assets/images/q$qn/Q.png"),
+        answer = Image.asset("assets/images/q$qn/Answer.png"),
+        options =
+        [
+          "B",
+          "C",
+          "D",
+        ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -36,30 +36,18 @@ class SAR {
 }
 
 class _ShapeRotationState extends State<ShapeRotation> {
-  bool showAll = true; // Initially show all cards
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        showAll = false; // Hide the cards after 2 seconds
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final sar = SAR(widget.questionNumber);
     return Scaffold(
-      appBar: AppBar(title: Text("Shapes and Rotation")),
+      appBar: AppBar(title: Text("Shapes and rotation")),
       body: Column(
         children: [
           Padding(padding: EdgeInsets.all(20), child: sar.question),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-<<<<<<< HEAD
-            children: sar
+            children:
+            sar
                 .getAnswers()
                 .map(
                   (c) => Expanded(
@@ -68,48 +56,23 @@ class _ShapeRotationState extends State<ShapeRotation> {
                   child: Column(
                     children: [
                       ElevatedButton(
-                        onPressed: showAll
-                            ? null // Disable interaction while cards are visible
-                            : () {
-                          if (c.$1 == sar.answer) {
-                            print("RIGHT ANSWER");
-                          }
+                        onPressed: () {
+                          if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                              widget.questionNumber < 5
+                                  ? ShapeRotation(
+                                questionNumber:
+                                widget.questionNumber +
+                                    1,
+                              )
+                                  : StartTestPage(),
+                            ),
+                          );
                         },
-                        child: showAll ? c.$1 : Icon(Icons.help), // Show image or placeholder
-=======
-            children:
-                sar
-                    .getAnswers()
-                    .map(
-                      (c) => Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) =>
-                                              widget.questionNumber < 5
-                                                  ? ShapeRotation(
-                                                    questionNumber:
-                                                        widget.questionNumber +
-                                                        1,
-                                                  )
-                                                  : StartTestPage(),
-                                    ),
-                                  );
-                                },
-                                child: c.$1,
-                              ),
-                              Text(c.$2),
-                            ],
-                          ),
-                        ),
->>>>>>> 87aec380a732210422cf3c8418d9e9d87c6ff831
+                        child: c.$1,
                       ),
                       Text(c.$2),
                     ],
