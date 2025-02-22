@@ -27,12 +27,17 @@ class ResultsPage extends StatelessWidget {
     );
 
     // Radar chart data
-    final List<String> categories = ['Reaction', 'Memory', 'Shape', 'AI Detection'];
+    final List<String> categories = [
+      'Reaction',
+      'Memory',
+      'Shape',
+      'AI Detection',
+    ];
     final List<double> baselineValues = [
       results.baseline.toDouble(),
       results.baseline.toDouble(),
       results.baseline.toDouble(),
-      results.baseline.toDouble()
+      results.baseline.toDouble(),
     ];
     final List<double> todayValues = [
       results.todayReactionResult,
@@ -42,55 +47,98 @@ class ResultsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Results Page'),
-      ),
+      appBar: AppBar(title: const Text('Results Page')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Text('Baseline: ${results.baseline}', style: const TextStyle(fontSize: 18)),
+            Text(
+              'Baseline: ${results.baseline}',
+              style: const TextStyle(fontSize: 18),
+            ),
             const SizedBox(height: 8),
-            Text('Today\'s Reaction Result: ${results.todayReactionResult}', style: const TextStyle(fontSize: 18)),
-            Text('Today\'s Memory Result: ${results.todayMemoryResult}', style: const TextStyle(fontSize: 18)),
-            Text('Today\'s Psychometric Result: ${results.todayPsychometricResult}', style: const TextStyle(fontSize: 18)),
-            Text('Today\'s AI Result: ${results.todayAIResult}', style: const TextStyle(fontSize: 18)),
+            Text(
+              'Today\'s Reaction Result: ${results.todayReactionResult}',
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Today\'s Memory Result: ${results.todayMemoryResult}',
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Today\'s Psychometric Result: ${results.todayPsychometricResult}',
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Today\'s AI Result: ${results.todayAIResult}',
+              style: const TextStyle(fontSize: 18),
+            ),
             const SizedBox(height: 16),
-            const Text('Radar Chart:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Radar Chart:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 16),
 
             Expanded(
-              child: RadarChart(
-                RadarChartData(
-                  dataSets: [
-                    RadarDataSet(
-                      dataEntries: baselineValues.map((value) => RadarEntry(value: value)).toList(),
-                      borderColor: Colors.blue,
-                      fillColor: Colors.blue.withOpacity(0.2),
-                      borderWidth: 2,
-                      entryRadius: 4, // Add points on the blue line
+              child: Padding(
+                padding: EdgeInsets.all(50),
+                child: RadarChart(
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeIn,
+                  RadarChartData(
+                    dataSets: [
+                      RadarDataSet(
+                        dataEntries:
+                            baselineValues
+                                .map((value) => RadarEntry(value: value))
+                                .toList(),
+                        borderColor: Colors.blue,
+                        fillColor: Colors.blue.withOpacity(0.2),
+                        borderWidth: 2,
+                        entryRadius: 4, // Add points on the blue line
+                      ),
+                      RadarDataSet(
+                        dataEntries:
+                            todayValues
+                                .map((value) => RadarEntry(value: value))
+                                .toList(),
+                        borderColor: Colors.green,
+                        fillColor: Colors.green.withOpacity(0.2),
+                        borderWidth: 2,
+                        entryRadius: 4, // Add points on the green line
+                      ),
+                    ],
+                    radarBorderData: BorderSide.none,
+                    // Remove black border
+                    titlePositionPercentageOffset: 0.2,
+                    // Adjust title positions further out
+                    getTitle: (index, _) {
+                      return RadarChartTitle(
+                        text: categories[index], // Use category names as titles
+                      );
+                    },
+
+
+                    tickCount: 5,
+                    ticksTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
                     ),
-                    RadarDataSet(
-                      dataEntries: todayValues.map((value) => RadarEntry(value: value)).toList(),
-                      borderColor: Colors.green,
-                      fillColor: Colors.green.withOpacity(0.2),
-                      borderWidth: 2,
-                      entryRadius: 4, // Add points on the green line
+                    // Tick label styling
+                    tickBorderData: BorderSide(
+                      color: Colors.grey.withOpacity(0.5),
                     ),
-                  ],
-                  radarBorderData: BorderSide.none, // Remove black border
-                  titlePositionPercentageOffset: 0.2, // Adjust title positions further out
-                  getTitle: (index, _) {
-                    return RadarChartTitle(
-                      text: categories[index], // Use category names as titles
-                    );
-                  },
-                  tickCount: 5, // Number of rings in the radar chart
-                  ticksTextStyle: TextStyle(color: Colors.black, fontSize: 12), // Tick label styling
-                  tickBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for ticks
-                  gridBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for grid lines
-                  radarBackgroundColor: Colors.transparent, // Transparent background
+                    // Style for ticks
+                    gridBorderData: BorderSide(
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                    // Style for grid lines
+                    radarBackgroundColor:
+                        Colors.transparent, // Transparent background
+                  ),
                 ),
               ),
             ),
@@ -140,10 +188,7 @@ class Results {
   });
 }
 
-
-
-
-    /*
+/*
     results.baseline
     results.todayReactionResult
     results.todayMemoryResult
@@ -151,7 +196,7 @@ class Results {
     results.todayAIResult
     */
 
-    /*
+/*
     results.day7
     results.day6
     results.day5
@@ -161,13 +206,12 @@ class Results {
     results.day1
     */
 
-    /*
+/*
     results.reactionAverage
     results.memoryAverage
     results.psychometricAverage
     results.AIAverage
     */
-
 
 /*
 RadarChart(
