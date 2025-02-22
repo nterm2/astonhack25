@@ -16,6 +16,8 @@ class _PicturePageState extends State<PicturePage> {
       (c) => c.lensDirection == CameraLensDirection.front,
     );
 
+    print(cameras.length);
+
     if (!context.mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => TakePictureScreen(camera: fCam)),
@@ -27,9 +29,7 @@ class _PicturePageState extends State<PicturePage> {
     return Scaffold(
       body: Column(children: [Text("Take picture")]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("TAKE PICTURE");
-        },
+        onPressed: () async => await takePicture(context),
       ),
     );
   }
