@@ -21,8 +21,7 @@ class GameScreen extends StatefulWidget {
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen>
-    with SingleTickerProviderStateMixin {
+class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   List<String> icons = ['🍎', '🍌', '🍒', '🍇', '🥝', '🍍', '🍉', '🥑'];
   late List<String> tiles;
   late List<bool> revealed;
@@ -35,6 +34,9 @@ class _GameScreenState extends State<GameScreen>
   bool gameOver = false;
   late AnimationController _animationController;
   late Animation<double> _rotationAnimation;
+
+  // New variable to track if we are showing all tiles for memorization
+  bool showAllTiles = true;
 
   @override
   void initState() {
@@ -52,7 +54,15 @@ class _GameScreenState extends State<GameScreen>
     _rotationAnimation = Tween<double>(
       begin: 0.0,
       end: 3.14,
-    ).animate(_animationController); // End at π (180 degrees)
+    ).animate(_animationController);
+
+    // Delay to show all tiles at the start
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        // After 2 seconds, hide the tiles and start the game
+        showAllTiles = false;
+      });
+    });
   }
 
   void startTimer() {
@@ -73,17 +83,16 @@ class _GameScreenState extends State<GameScreen>
   }
 
   void tileTapped(int index) {
-    if (revealed[index] || firstIndex == index || gameOver) return;
+    if (revealed[index] || firstIndex == index || gameOver || showAllTiles) return;
+
     setState(() {
       if (firstIndex == -1) {
         firstIndex = index;
-        _animationController
-            .forward(); // Trigger rotation animation for the first tile
+        _animationController.forward(); // Trigger rotation animation for the first tile
       } else {
         secondIndex = index;
         attempts++;
-        _animationController
-            .forward(); // Trigger rotation animation for the second tile
+        _animationController.forward(); // Trigger rotation animation for the second tile
         if (tiles[firstIndex] == tiles[secondIndex]) {
           revealed[firstIndex] = true;
           revealed[secondIndex] = true;
@@ -173,14 +182,15 @@ class _GameScreenState extends State<GameScreen>
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        isRevealed ? tiles[index] : '★',
+                        showAllTiles || isRevealed
+                            ? tiles[index]
+                            : '★', // Show all tiles if showAllTiles is true
                         style: TextStyle(fontSize: 32, color: Colors.greenAccent[400]),
                       ),
                     ),
                   ),
                 );
               },
-
             ),
           ),
           SizedBox(height: 20),
@@ -195,6 +205,7 @@ class _GameScreenState extends State<GameScreen>
                 attempts = 0;
                 timeLeft = 30;
                 gameOver = false;
+                showAllTiles = true; // Show all tiles on restart
                 timer.cancel();
                 startTimer();
               });
@@ -214,6 +225,7 @@ class _GameScreenState extends State<GameScreen>
     super.dispose();
   }
 }
+
 
 class GameOverScreen extends StatelessWidget {
   @override
