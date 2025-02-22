@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -93,11 +95,10 @@ class ResultsPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-
             // radar chart
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.zero,
                 child: RadarChart(
                   duration: Duration(seconds: 1),
                   curve: Curves.easeIn,
@@ -123,6 +124,13 @@ class ResultsPage extends StatelessWidget {
                         borderWidth: 2,
                         entryRadius: 4, // Add points on the green line
                       ),
+                      RadarDataSet(
+                        dataEntries: [100, 100, 100, 100].map((v) => RadarEntry(value: v.toDouble())).toList(),
+                        borderColor: Color.fromRGBO(0, 0, 0, 0),
+                        fillColor: Color.fromRGBO(0, 0, 0, 0),
+                        borderWidth: null,
+                        entryRadius: null
+                      )
                     ],
                     radarBorderData: BorderSide.none,
                     // Remove black border
@@ -134,10 +142,9 @@ class ResultsPage extends StatelessWidget {
                       );
                     },
 
-
-                    tickCount: 5,
+                    tickCount: 4,
                     ticksTextStyle: TextStyle(
-                      color: Colors.black,
+                      color: Color.fromRGBO(0, 0, 0, 0),
                       fontSize: 12,
                     ),
                     // Tick label styling
@@ -156,8 +163,8 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
 
+            SizedBox(height: 40),
 
-            // line chart
             Expanded(
               flex: 1,
               child: LineChart(
@@ -166,8 +173,10 @@ class ResultsPage extends StatelessWidget {
                   minY: 0,
                   lineBarsData: [
                     LineChartBarData(
-                      spots: lineChartPoints, // Data points for the chart
-                      isCurved: true, // Smooth line
+                      spots: lineChartPoints,
+                      // Data points for the chart
+                      isCurved: true,
+                      // Smooth line
                       barWidth: 4,
                       color: Colors.green,
                       dotData: FlDotData(show: true), // Show dots on points
@@ -181,7 +190,8 @@ class ResultsPage extends StatelessWidget {
                         getTitlesWidget: (value, _) {
                           // Display days as singular digits
                           return Text(
-                            value.toInt().toString(), // Show only integer values
+                            value.toInt().toString(),
+                            // Show only integer values
                             style: const TextStyle(fontSize: 12),
                           );
                         },
@@ -204,13 +214,12 @@ class ResultsPage extends StatelessWidget {
                   ),
                   gridData: FlGridData(show: true),
                   borderData: FlBorderData(show: true),
-                  lineTouchData: LineTouchData(enabled: true), // Allow touch interactions
+                  lineTouchData: LineTouchData(
+                    enabled: true,
+                  ), // Allow touch interactions
                 ),
               ),
             ),
-
-
-
           ],
         ),
       ),
