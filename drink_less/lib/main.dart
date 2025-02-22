@@ -3,6 +3,7 @@ import 'package:drink_less/pages/clicking_page.dart';
 import 'package:drink_less/pages/picture_page.dart';
 import 'package:drink_less/pages/start_page.dart';
 import 'package:flutter/foundation.dart';
+import 'package:drink_less/results/results.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: MemoryMatchGame(),
+      home: ResultsPage(),
     );
   }
 }
