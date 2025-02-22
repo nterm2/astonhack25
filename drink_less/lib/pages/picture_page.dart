@@ -12,13 +12,13 @@ class PicturePage extends StatefulWidget {
 class _PicturePageState extends State<PicturePage> {
   Future<void> takePicture(BuildContext context) async {
     final cameras = await availableCameras();
-    final fcam = cameras.firstWhere(
+    final fCam = cameras.firstWhere(
       (c) => c.lensDirection == CameraLensDirection.front,
     );
 
     if (!context.mounted) return;
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: fcam)),
+      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: fCam)),
     );
   }
 
