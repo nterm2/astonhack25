@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:drink_less/pages/clicking_page.dart';
 import 'package:flutter/material.dart';
 
 // A screen that allows users to take a picture using a given camera.
@@ -48,17 +49,22 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the Future is complete, display the preview.
-            return CameraPreview(_controller);
-          } else {
-            // Otherwise, display a loading indicator.
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Column(
+        children: [
+          Text("Please take a photo of your whole face!"),
+          FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // If the Future is complete, display the preview.
+                return CameraPreview(_controller);
+              } else {
+                // Otherwise, display a loading indicator.
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         // Provide an onPressed callback.
@@ -80,10 +86,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               MaterialPageRoute(
                 builder:
                     (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imagePath: image.path,
-                ),
+                      // Pass the automatically generated path to
+                      // the DisplayPictureScreen widget.
+                      imagePath: image.path,
+                    ),
               ),
             );
           } catch (e) {
@@ -109,7 +115,29 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: FutureBuilder(
+        future: Future.delayed(Duration(seconds: 2)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (context) => ClickingPage()));
+            });
+          }
+          return Stack(
+            children: [
+              Column(
+                children: [
+                  Text("Sending the image"),
+                  Image.file(File(imagePath)),
+                ],
+              ),
+              Center(child: CircularProgressIndicator()),
+            ],
+          );
+        },
+      ),
     );
   }
 }

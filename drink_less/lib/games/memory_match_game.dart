@@ -9,19 +9,19 @@ void main() {
 class MemoryMatchGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: GameScreen(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: GameScreen());
   }
 }
+
+
 
 class GameScreen extends StatefulWidget {
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen>
+    with SingleTickerProviderStateMixin {
   List<String> icons = ['🍎', '🍌', '🍒', '🍇', '🥝', '🍍', '🍉', '🥑'];
   late List<String> tiles;
   late List<bool> revealed;
@@ -32,6 +32,8 @@ class _GameScreenState extends State<GameScreen> {
   int timeLeft = 30;
   late Timer timer;
   bool gameOver = false;
+  late AnimationController _animationController;
+  late Animation<double> _rotationAnimation;
 
   @override
   void initState() {
@@ -40,6 +42,16 @@ class _GameScreenState extends State<GameScreen> {
     tiles.shuffle(Random());
     revealed = List.generate(16, (index) => false);
     startTimer();
+
+    // Initialize the animation controller for tile rotation
+    _animationController = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+    _rotationAnimation = Tween<double>(
+      begin: 0.0,
+      end: 3.14,
+    ).animate(_animationController); // End at π (180 degrees)
   }
 
   void startTimer() {
@@ -64,9 +76,13 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       if (firstIndex == -1) {
         firstIndex = index;
+        _animationController
+            .forward(); // Trigger rotation animation for the first tile
       } else {
         secondIndex = index;
         attempts++;
+        _animationController
+            .forward(); // Trigger rotation animation for the second tile
         if (tiles[firstIndex] == tiles[secondIndex]) {
           revealed[firstIndex] = true;
           revealed[secondIndex] = true;
@@ -85,19 +101,37 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  Widget mkChild(int index) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        revealed[index] || firstIndex == index || secondIndex == index
+            ? tiles[index]
+            : '?',
+        style: TextStyle(fontSize: 32, color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double ratio = attempts == 0 ? 0.0 : matchedPairs / attempts;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Memory Match Game'),
-      ),
+      appBar: AppBar(title: Text('Memory Match Game')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),
           SizedBox(height: 10),
-          Text('Ratio: ${ratio.toStringAsFixed(2)}', style: TextStyle(fontSize: 20)),
+          Text(
+            'Ratio: ${ratio.toStringAsFixed(2)}',
+            style: TextStyle(fontSize: 20),
+          ),
           SizedBox(height: 20),
           Expanded(
             child: GridView.builder(
@@ -171,9 +205,11 @@ class _GameScreenState extends State<GameScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     timer.cancel();
+    _animationController.dispose(); // Dispose the animation controller
     super.dispose();
   }
 }
