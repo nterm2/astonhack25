@@ -187,19 +187,16 @@ class ResultsPage extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 32,
-                        getTitlesWidget: (value, _) {
-                          // Display days as singular digits
-                          return Text(
-                            value.toInt().toString(),
-                            // Show only integer values
-                            style: const TextStyle(fontSize: 12),
-                          );
-                        },
                         interval: 1, // Singular gaps between day labels
                       ),
                     ),
+                    topTitles: AxisTitles(
+                      axisNameWidget: Text("Past seven days"),
+                      axisNameSize: 25,
+                    ),
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
+                        interval: 25,
                         showTitles: true,
                         reservedSize: 28,
                         getTitlesWidget: (value, _) {
@@ -211,6 +208,7 @@ class ResultsPage extends StatelessWidget {
                         },
                       ),
                     ),
+                    rightTitles: AxisTitles(),
                   ),
                   gridData: FlGridData(show: true),
                   borderData: FlBorderData(show: true),
