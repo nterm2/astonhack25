@@ -1,3 +1,4 @@
+import 'package:drink_less/games/shape_rotation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
@@ -64,7 +65,7 @@ class _GameScreenState extends State<GameScreen>
           gameOver = true;
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => GameOverScreen()),
+            MaterialPageRoute(builder: (context) => ShapeRotation()),
           );
         }
       });
