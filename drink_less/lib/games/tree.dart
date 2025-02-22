@@ -11,8 +11,9 @@ class TreeWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 100),
       child: CustomPaint(
-            size: Size.infinite,
-            painter: TreePainter(10),
+        size: Size.infinite,
+        painter: TreePainter(n, true),
+        foregroundPainter: TreePainter(n, false),
       ),
     );
   }
@@ -20,25 +21,28 @@ class TreeWidget extends StatelessWidget {
 
 class TreePainter extends CustomPainter {
   final int n;
+  final bool blur;
 
-  TreePainter(this.n);
+  TreePainter(this.n, this.blur);
 
   Color getColor(int days) {
     final rand = Random();
-    if (n == 1) {
-      return Color.fromRGBO(
-        (rand.nextDouble() * 60 + 150).toInt(),
-        (rand.nextDouble() * 60 + 150).toInt(),
-        (rand.nextDouble() * 60 + 150).toInt(),
-        1,
-      );
-    }
+    return Color.fromRGBO(0, (rand.nextDouble() * 60 + 150).toInt(), 0, 1);
 
-    if (n > 30) {
-      return Color.fromRGBO(0, (rand.nextDouble() * 60 + 150).toInt(), 0, 1);
-    }
+    // if (n == 1) {
+    //   return Color.fromRGBO(
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     (rand.nextDouble() * 60 + 150).toInt(),
+    //     1,
+    //   );
+    // }
 
-    return Color.fromRGBO(255, 255, rand.nextInt(255), 1);
+    // if (n > 30) {
+    //   return Color.fromRGBO(0, (rand.nextDouble() * 60 + 150).toInt(), 0, 1);
+    // }
+
+    // return Color.fromRGBO(255, 255, rand.nextInt(255), 1);
   }
 
   @override
@@ -52,7 +56,9 @@ class TreePainter extends CustomPainter {
           rand.nextDouble() * (size.height - 2 * sz) + sz,
         ),
         sz,
-        Paint()..color = getColor(n),
+        Paint()
+          ..color = getColor(n)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur ? 10.0 : 2.0),
       );
     }
   }
