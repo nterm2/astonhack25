@@ -14,14 +14,12 @@ class MemoryMatchGame extends StatelessWidget {
   }
 }
 
-
-
 class GameScreen extends StatefulWidget {
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
+class _GameScreenState extends State<GameScreen> {
   List<String> icons = ['🍎', '🍌', '🍒', '🍇', '🥝', '🍍', '🍉', '🥑'];
   late List<String> tiles;
   late List<bool> revealed;
@@ -30,13 +28,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   int matchedPairs = 0;
   int attempts = 0;
   int timeLeft = 30;
-  late Timer timer;
+  Timer? timer; // Timer is nullable to prevent errors
   bool gameOver = false;
-  late AnimationController _animationController;
-  late Animation<double> _rotationAnimation;
-
-  // New variable to track if we are showing all tiles for memorization
-  bool showAllTiles = true;
+  bool showAllTiles = true; // Show tiles initially for memorization
+  bool gameStarted = false; // Prevents actions before game starts
 
   @override
   void initState() {
@@ -44,55 +39,86 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     tiles = [...icons, ...icons];
     tiles.shuffle(Random());
     revealed = List.generate(16, (index) => false);
-    startTimer();
 
-    // Initialize the animation controller for tile rotation
-    _animationController = AnimationController(
-      duration: Duration(seconds: 1),
-      vsync: this,
-    );
-    _rotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 3.14,
-    ).animate(_animationController);
-
-    // Delay to show all tiles at the start
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        // After 2 seconds, hide the tiles and start the game
-        showAllTiles = false;
-      });
+    // Show modal before starting game
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showStartDialog();
     });
+  }
+
+  void _showStartDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents accidental dismissal
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Welcome to Memory Match!'),
+          content: Text(
+            'Try to match all pairs before time runs out. Good luck!',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _startGame(); // Start the game
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _startGame() {
+    setState(() {
+      gameStarted = true;
+      showAllTiles = true; // Show all tiles for 2 seconds
+    });
+
+    Future.delayed(Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          showAllTiles = false; // Hide tiles after 2 seconds
+        });
+      }
+    });
+
+    startTimer();
   }
 
   void startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!mounted) return;
       setState(() {
         if (timeLeft > 0) {
           timeLeft--;
         } else {
-          timer.cancel();
-          gameOver = true;
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ShapeRotation()),
-          );
+          _endGame();
         }
       });
     });
   }
 
+  void _endGame() {
+    timer?.cancel();
+    gameOver = true;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ShapeRotation()),
+    );
+  }
+
   void tileTapped(int index) {
-    if (revealed[index] || firstIndex == index || gameOver || showAllTiles) return;
+    if (!gameStarted || revealed[index] || firstIndex == index || gameOver || showAllTiles) return;
 
     setState(() {
       if (firstIndex == -1) {
         firstIndex = index;
-        _animationController.forward(); // Trigger rotation animation for the first tile
       } else {
         secondIndex = index;
         attempts++;
-        _animationController.forward(); // Trigger rotation animation for the second tile
+
         if (tiles[firstIndex] == tiles[secondIndex]) {
           revealed[firstIndex] = true;
           revealed[secondIndex] = true;
@@ -101,43 +127,31 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           secondIndex = -1;
         } else {
           Future.delayed(Duration(seconds: 1), () {
-            setState(() {
-              firstIndex = -1;
-              secondIndex = -1;
-            });
+            if (mounted) {
+              setState(() {
+                firstIndex = -1;
+                secondIndex = -1;
+              });
+            }
           });
+        }
+
+        // Check if the game is won
+        if (matchedPairs == icons.length) {
+          _endGame();
         }
       }
     });
   }
 
-  Widget mkChild(int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        revealed[index] || firstIndex == index || secondIndex == index
-            ? tiles[index]
-            : '?',
-        style: TextStyle(fontSize: 32, color: Colors.white),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    double ratio = attempts == 0 ? 0.0 : matchedPairs / attempts;
-
     return Scaffold(
       appBar: AppBar(title: Text('Memory Match Game')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),
-          SizedBox(height: 10),
           SizedBox(height: 20),
           Expanded(
             child: GridView.builder(
@@ -178,10 +192,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        showAllTiles || isRevealed
-                            ? tiles[index]
-                            : '★', // Show all tiles if showAllTiles is true
-                        style: TextStyle(fontSize: 32, color: Colors.greenAccent[400]),
+                        showAllTiles || isRevealed ? tiles[index] : '★',
+                        style: TextStyle(fontSize: 32, color: Colors.green[700]),
                       ),
                     ),
                   ),
@@ -190,7 +202,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
           SizedBox(height: 20),
-          SizedBox(height: 20),
         ],
       ),
     );
@@ -198,12 +209,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    timer.cancel();
-    _animationController.dispose(); // Dispose the animation controller
+    timer?.cancel(); // Ensure timer is disposed
     super.dispose();
   }
 }
-
 
 class GameOverScreen extends StatelessWidget {
   @override
