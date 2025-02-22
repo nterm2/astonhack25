@@ -1,3 +1,4 @@
+import 'package:drink_less/pages/clicking_page.dart';
 import 'package:drink_less/pages/picture_page.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: PicturePage(),
+      home: ClickingPage(),
     );
   }
 }
