@@ -68,18 +68,36 @@ class ResultsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Text(
-                'Your Progress',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  border: Border.all(
+                    color: Colors.green.shade800, // Dark strong green outline
+                    width: 3, // Outline width
+                  ),
+                ),
+                padding: const EdgeInsets.all(16), // Padding inside the container
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Your Progress',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      '''Tracking your journey is the first step toward change. Every step you take is progress, and each small victory brings you closer to your goals.
+                      \nKeep moving forward—you're making incredible strides toward the change you deserve.''',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 16),
-              const Text(
-                '''Tracking your journey is the first step toward change.
-                \nThis section highlights how far you\'ve come and the goals you\'ve set for yourself.
-                \nProgress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
-                \nKeep going; you\'re doing something amazing for yourself.''',
-                style: TextStyle(fontSize: 14),
-              ),
+
+
+
               const SizedBox(height: 20),
               const Text(
                 'Today\'s Performance',
@@ -138,13 +156,29 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              const Text(
-                '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
-                \nEven if today feels challenging, remember: it\'s about the effort, not perfection. 
-                \nEach choice you make today is a step closer to the future you envision for yourself.
-                \nYou’ve got this!''',
-                style: TextStyle(fontSize: 14),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  border: Border.all(
+                    color: Colors.green.shade800, // Dark strong green outline
+                    width: 3, // Outline width
+                  ),
+                ),
+                padding: const EdgeInsets.all(16), // Padding inside the container
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
+                      \nEven if today feels challenging, remember: it\'s about the effort, not perfection. This is a step closer to the future you envision.''',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
+
               const SizedBox(height: 40),
               const Text(
                 'This Week\'s Performance',
@@ -207,15 +241,28 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
 
-              const Text(
-                '''A week may feel like a small part of the bigger picture, but it's where real habits are built. 
-                \nThis graph shows how consistent you’ve been and the progress you’ve made. 
-                \nCelebrate your wins and learn from the harder days. 
-                \nA single strong day can inspire the whole week, so keep moving forward—you're proving you can do it.''',
-                style: TextStyle(fontSize: 14),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  border: Border.all(
+                    color: Colors.green.shade800, // Dark strong green outline
+                    width: 3, // Outline width
+                  ),
+                ),
+                padding: const EdgeInsets.all(16), // Padding inside the container
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '''A week may feel like a small part of the bigger picture, but it's where real habits are built.
+                      \nThis graph shows how consistent you’ve been. Celebrate your wins and learn from the harder days.''',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
-
-
 
               const SizedBox(height: 40),
               const Text(
@@ -340,13 +387,30 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
 
-              const Text(
-                '''This is your story, and this graph captures the progress you've made over time in each area. 
-                \nThese metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you. 
-                \nEvery improvement, no matter how small, adds up. Be proud of how far you’ve come and know that your future is brighter 
-                \nbecause of the steps you’re taking today.''',
-                style: TextStyle(fontSize: 14),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  border: Border.all(
+                    color: Colors.green.shade800, // Dark strong green outline
+                    width: 3, // Outline width
+                  ),
+                ),
+                padding: const EdgeInsets.all(16), // Padding inside the container
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '''This is your story, and this graph captures the progress you've made over time in each area.
+                      \nThese metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you.''',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
+
+
+
             ],
           ),
         ),
