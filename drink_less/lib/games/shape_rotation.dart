@@ -52,7 +52,9 @@ class _ShapeRotationState extends State<ShapeRotation> {
                           padding: EdgeInsets.all(10),
                           child: Column(
                             children: [
-                              ElevatedButton(onPressed: () {}, child: c.$1),
+                              ElevatedButton(onPressed: () {
+                                if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                              }, child: c.$1),
                               Text(c.$2),
                             ],
                           ),
