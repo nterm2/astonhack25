@@ -11,9 +11,9 @@ app = Flask(__name__)
 def home():
 
     # Generate the data to test the endpoint
-    # print(test_image_scanning())
+    print(test_image_scanning())
     
-    # scan_image(test_image_scanning())
+    scan_image(test_image_scanning())
 
     return 'Hello World!'
 
@@ -36,6 +36,7 @@ def scan(image_data):
 # Returns test data for the end point
 def test_image_scanning():
     with open('test_image.jpg', 'rb') as image_file:
+        print(image_file.read())
         encoded_string = base64.b64encode(image_file.read())
     return encoded_string
 

@@ -1,3 +1,5 @@
+// import 'dart:io';
+
 import 'package:drink_less/net/face_scan.dart';
 import 'package:flutter/material.dart';
 
@@ -68,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             FloatingActionButton(
-              onPressed: () => debugPrint('In progress!'),
+              onPressed: () => 
+                getFaceScan('assets/test_image.jpg'),
               child: Icon(Icons.info),
             ),
           ],
