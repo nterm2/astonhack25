@@ -75,9 +75,9 @@ class ResultsPage extends StatelessWidget {
               const SizedBox(height: 16),
               const Text(
                 '''Tracking your journey is the first step toward change.
-                This section highlights how far you\'ve come and the goals you\'ve set for yourself.
-                Progress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
-                Keep going; you\'re doing something amazing for yourself.''',
+                \nThis section highlights how far you\'ve come and the goals you\'ve set for yourself.
+                \nProgress isn\'t always linear, but every step forward—no matter how small—is a victory worth celebrating.
+                \nKeep going; you\'re doing something amazing for yourself.''',
                 style: TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 20),
@@ -140,9 +140,9 @@ class ResultsPage extends StatelessWidget {
               const SizedBox(height: 40),
               const Text(
                 '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
-                Even if today feels challenging, remember: it\'s about the effort, not perfection. 
-                Each choice you make today is a step closer to the future you envision for yourself.
-                You’ve got this!''',
+                \nEven if today feels challenging, remember: it\'s about the effort, not perfection. 
+                \nEach choice you make today is a step closer to the future you envision for yourself.
+                \nYou’ve got this!''',
                 style: TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 40),
@@ -206,6 +206,17 @@ class ResultsPage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              const Text(
+                '''A week may feel like a small part of the bigger picture, but it's where real habits are built. 
+                \nThis graph shows how consistent you’ve been and the progress you’ve made. 
+                \nCelebrate your wins and learn from the harder days. 
+                \nA single strong day can inspire the whole week, so keep moving forward—you're proving you can do it.''',
+                style: TextStyle(fontSize: 14),
+              ),
+
+
+
               const SizedBox(height: 40),
               const Text(
                 'Overall Progress',
@@ -327,6 +338,14 @@ class ResultsPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+
+              const Text(
+                '''This is your story, and this graph captures the progress you've made over time in each area. 
+                \nThese metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you. 
+                \nEvery improvement, no matter how small, adds up. Be proud of how far you’ve come and know that your future is brighter 
+                \nbecause of the steps you’re taking today.''',
+                style: TextStyle(fontSize: 14),
               ),
             ],
           ),
