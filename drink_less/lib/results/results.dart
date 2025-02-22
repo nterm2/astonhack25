@@ -5,6 +5,9 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:drink_less/pages/start_page.dart';
 
+import 'package:drink_less/extra/footer.dart';
+import 'package:drink_less/extra/header.dart';
+
 class ResultsPage extends StatelessWidget {
   const ResultsPage({Key? key}) : super(key: key);
 
@@ -62,16 +65,24 @@ class ResultsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Progress')),
+      appBar: CustomAppBar(),
+
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          bottom: 0.0,
+          top: 0.0, 
+        ),
+
         child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              const SizedBox(height: 10),
 
-              Container(
+              Container(  
                 decoration: BoxDecoration(
                   color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
                   borderRadius: BorderRadius.circular(12), // Rounded corners
@@ -439,11 +450,14 @@ class ResultsPage extends StatelessWidget {
 
               const SizedBox(height: 10),
 
+
+
             ],
           ),
         ),
       ),
 
+      bottomNavigationBar: const Footer(),
     );
   }
 }
