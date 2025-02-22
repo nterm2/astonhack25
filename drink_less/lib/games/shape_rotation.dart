@@ -18,14 +18,14 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-    : question = Image.asset("assets/images/q$qn/Q.png"),
-      answer = Image.asset("assets/images/q$qn/Answer.png"),
-      options =
-          [
-            "B",
-            "C",
-            "D",
-          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
+      : question = Image.asset("assets/images/q$qn/Q.png"),
+        answer = Image.asset("assets/images/q$qn/Answer.png"),
+        options =
+        [
+          "B",
+          "C",
+          "D",
+        ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -47,40 +47,40 @@ class _ShapeRotationState extends State<ShapeRotation> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children:
-                sar
-                    .getAnswers()
-                    .map(
-                      (c) => Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) =>
-                                              widget.questionNumber < 5
-                                                  ? ShapeRotation(
-                                                    questionNumber:
-                                                        widget.questionNumber +
-                                                        1,
-                                                  )
-                                                  : StartTestPage(),
-                                    ),
-                                  );
-                                },
-                                child: c.$1,
-                              ),
-                              Text(c.$2),
-                            ],
-                          ),
-                        ),
+            sar
+                .getAnswers()
+                .map(
+                  (c) => Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                              widget.questionNumber < 5
+                                  ? ShapeRotation(
+                                questionNumber:
+                                widget.questionNumber +
+                                    1,
+                              )
+                                  : StartTestPage(),
+                            ),
+                          );
+                        },
+                        child: c.$1,
                       ),
-                    )
-                    .toList(),
+                      Text(c.$2),
+                    ],
+                  ),
+                ),
+              ),
+            )
+                .toList(),
           ),
         ],
       ),
