@@ -60,40 +60,27 @@ class ResultsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Results Page')),
+      appBar: AppBar(title: const Text('Your Progress')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              'Baseline: ${results.baseline}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Today\'s Reaction Result: ${results.todayReactionResult}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Today\'s Memory Result: ${results.todayMemoryResult}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Today\'s Psychometric Result: ${results.todayPsychometricResult}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Today\'s AI Result: ${results.todayAIResult}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 16),
             const Text(
-              'Radar Chart:',
+              'Your Progress',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'Today\'s Performance',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
 
             // radar chart
             Expanded(
@@ -165,6 +152,13 @@ class ResultsPage extends StatelessWidget {
 
             SizedBox(height: 40),
 
+            const Text(
+              'This Week\'s Performance',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
+
             Expanded(
               flex: 1,
               child: LineChart(
@@ -191,8 +185,8 @@ class ResultsPage extends StatelessWidget {
                       ),
                     ),
                     topTitles: AxisTitles(
-                      axisNameWidget: Text("Past seven days"),
-                      axisNameSize: 25,
+                      axisNameWidget: Text(""),
+                      axisNameSize: 0,
                     ),
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
@@ -218,6 +212,15 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
             ),
+
+            SizedBox(height: 40),
+
+            const Text(
+              'Overall Progress',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
 
 
             // Bar chart
@@ -250,8 +253,8 @@ class ResultsPage extends StatelessWidget {
                     ),
                     rightTitles: AxisTitles(),
                     topTitles: AxisTitles(
-                      axisNameWidget: Text("Overall progress"),
-                      axisNameSize: 25,
+                      axisNameWidget: Text(""),
+                      axisNameSize: 0,
                     ),
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
