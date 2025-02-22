@@ -16,8 +16,6 @@ class _PicturePageState extends State<PicturePage> {
       (c) => c.lensDirection == CameraLensDirection.front,
     );
 
-    print(cameras.length);
-
     if (!context.mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => TakePictureScreen(camera: fCam)),
