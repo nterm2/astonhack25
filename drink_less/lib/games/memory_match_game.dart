@@ -138,10 +138,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         children: [
           Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),
           SizedBox(height: 10),
-          Text(
-            'Ratio: ${ratio.toStringAsFixed(2)}',
-            style: TextStyle(fontSize: 20),
-          ),
           SizedBox(height: 20),
           Expanded(
             child: GridView.builder(
@@ -194,24 +190,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                tiles.shuffle(Random());
-                revealed = List.generate(16, (index) => false);
-                firstIndex = -1;
-                secondIndex = -1;
-                matchedPairs = 0;
-                attempts = 0;
-                timeLeft = 30;
-                gameOver = false;
-                showAllTiles = true; // Show all tiles on restart
-                timer.cancel();
-                startTimer();
-              });
-            },
-            child: Text('Restart'),
-          ),
           SizedBox(height: 20),
         ],
       ),
