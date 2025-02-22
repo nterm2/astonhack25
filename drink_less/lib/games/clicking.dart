@@ -90,20 +90,22 @@ class ClickingState {
 
   void _addNewBlock(Size size) {
     final rand = Random();
-    final sz = (rand.nextInt(100) + 50).toDouble();
+    // final sz = (rand.nextInt(20) + 40).toDouble();
+    final sz = (50).toDouble();
+    final shape = Shape.values.elementAt(rand.nextInt(Shape.values.length));
     points.add(
       ClickBlock(
         x: rand.nextDouble() * (size.width - 100 - sz) + sz,
         y: -sz,
-        change: rand.nextDouble() * 5000 + 5000,
+        change: rand.nextDouble() * 20000 + 20000,
         color: Color.fromRGBO(
           rand.nextInt(256),
           rand.nextInt(256),
           rand.nextInt(256),
           1.0,
         ),
-        size: sz,
-        shape: Shape.values.elementAt(rand.nextInt(Shape.values.length))
+        size: shape == Shape.circle ? sz / 2 : sz,
+        shape: shape
       ),
     );
   }
