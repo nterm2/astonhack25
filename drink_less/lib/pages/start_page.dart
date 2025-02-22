@@ -25,6 +25,7 @@ class StartTestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
+
       body: Center(
         child: ElevatedButton(
           onPressed: () async => await takePicture(context),

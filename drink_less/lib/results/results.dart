@@ -72,7 +72,7 @@ class ResultsPage extends StatelessWidget {
           left: 16.0,
           right: 16.0,
           bottom: 0.0,
-          top: 0.0, // Prevent padding above
+          top: 0.0, 
         ),
 
         child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
