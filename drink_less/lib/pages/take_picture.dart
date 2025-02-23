@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
+import 'package:drink_less/games/clicking.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -26,6 +27,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showStartDialog();
+    });
+    super.initState();
     // To display the current output from the Camera,
     // create a CameraController.
     _controller = CameraController(
@@ -37,6 +42,57 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
+  }
+
+    void _showStartDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents accidental dismissal
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Welcome to the Picture Test!'),
+          content: const Text(
+            "In this test, you'll have to take a picture of yourself, which we will use our pre-trained machine learning models to determine your intoxication levels. Please make sure to include the entirety of your face in this picture, and ensure there are no additional distractions. Good luck.",
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                setState(() {
+                   // Start game after dialog is dismissed
+                });
+              },
+              child: const Text('Start'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+    void _showEndDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents accidental dismissal
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Finished The Picture Test.'),
+          content: const Text(
+            "Say Cheese! Let's push on forward to the Clicking Test.",
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => ClickingGame()),
+                );
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
