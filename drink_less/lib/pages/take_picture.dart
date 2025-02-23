@@ -53,8 +53,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
-      body: Column(
+
+      /* HERE IS WHERE IT WONT WORK */
+      body: Stack(
         children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+          ),
           //Text("Please take a photo of your whole face!"),
           FutureBuilder<void>(
             future: _initializeControllerFuture,
@@ -132,6 +137,9 @@ class DisplayPictureScreen extends StatelessWidget {
           }
           return Stack(
             children: [
+              Positioned.fill(
+                child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+              ),
               Column(
                 children: [
                   Text("Sending the image"),

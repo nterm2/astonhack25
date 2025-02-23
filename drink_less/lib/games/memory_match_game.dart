@@ -290,80 +290,99 @@ void _showEndDialog() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-              borderRadius: BorderRadius.circular(12), // Rounded corners
-              border: Border.all(
-                color: Colors.green.shade800, // Dark strong green outline
-                width: 3, // Outline width
-              ),
-            ),
-            padding: const EdgeInsets.all(16), // Padding inside the container
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),
-              ],
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background/background.png',
+              fit: BoxFit.cover,
             ),
           ),
-
-          SizedBox(height: 20),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(16),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+          
+          // Content inside a Column
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 10),
+              
+              // Your Container with Time Left
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1), // Light green transparent background
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  border: Border.all(
+                    color: Colors.green.shade800, // Dark green outline
+                    width: 3, // Outline width
+                  ),
+                ),
+                padding: const EdgeInsets.all(16), // Padding inside the container
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20, color: Colors.white,),),
+                  ],
+                ),
               ),
-              itemCount: tiles.length,
-              itemBuilder: (context, index) {
-                bool isRevealed = revealed[index] || firstIndex == index || secondIndex == index;
 
-                return GestureDetector(
-                  onTap: () => tileTapped(index),
-                  child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
-                    transitionBuilder: (widget, animation) {
-                      final rotateAnim = Tween(begin: pi, end: 0.0).animate(animation);
-                      return AnimatedBuilder(
-                        animation: rotateAnim,
-                        child: widget,
-                        builder: (context, child) {
-                          final isFlipped = rotateAnim.value >= pi / 2;
-                          return Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(rotateAnim.value),
-                            child: isFlipped ? Container() : child,
+              SizedBox(height: 20),
+              
+              // GridView for tiles
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.all(16),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: tiles.length,
+                  itemBuilder: (context, index) {
+                    bool isRevealed = revealed[index] || firstIndex == index || secondIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => tileTapped(index),
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 500),
+                        transitionBuilder: (widget, animation) {
+                          final rotateAnim = Tween(begin: pi, end: 0.0).animate(animation);
+                          return AnimatedBuilder(
+                            animation: rotateAnim,
+                            child: widget,
+                            builder: (context, child) {
+                              final isFlipped = rotateAnim.value >= pi / 2;
+                              return Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.rotationY(rotateAnim.value),
+                                child: isFlipped ? Container() : child,
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                    child: Container(
-                      key: ValueKey(isRevealed),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent,
-                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          key: ValueKey(isRevealed),
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            showAllTiles || isRevealed ? tiles[index] : '★',
+                            style: TextStyle(fontSize: 32, color: Colors.green[700]),
+                          ),
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        showAllTiles || isRevealed ? tiles[index] : '★',
-                        style: TextStyle(fontSize: 32, color: Colors.green[700]),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
+              ),
+              
+              SizedBox(height: 20),
+            ],
           ),
-          SizedBox(height: 20),
         ],
       ),
+
       bottomNavigationBar: const Footer(),
     );
   }
