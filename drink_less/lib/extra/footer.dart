@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:drink_less/global.dart'; // Import the global variable
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -178,14 +179,9 @@ class Footer extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         // Save inputs or pass them to a parent/state
-                        String target = targetController.text;
-                        String time = timeController.text;
-                        String message = messageController.text;
-
-                        // Perform your saving logic here
-                        print('Target: $target');
-                        print('Time: $time');
-                        print('Message: $message');
+                        globalMessage = messageController.text.isEmpty
+                            ? globalMessage
+                            : messageController.text;
 
                         Navigator.of(context).pop(); // Close the dialog
                       },
@@ -204,6 +200,7 @@ class Footer extends StatelessWidget {
     );
   }
 }
+
 
 
 

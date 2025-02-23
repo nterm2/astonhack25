@@ -1,0 +1,1 @@
+String globalMessage = "Concentrate on improving myself more";
