@@ -26,7 +26,7 @@ class _GameScreenState extends State<GameScreen> {
   int secondIndex = -1;
   int matchedPairs = 0;
   int attempts = 0;
-  int timeLeft = 30;
+  int timeLeft = 45;
   Timer? timer;
   bool gameOver = false;
   bool showAllTiles = true;
@@ -52,7 +52,7 @@ class _GameScreenState extends State<GameScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Welcome to Memory Match!'),
-          content: Text('In this test, you will be shown pairs of tiles. Your objective is to memorize the tiles’ locations and match them correctly. Pay attention to detail and try to remember the positions of the tiles!'),
+          content: Text('In this test, you will be shown pairs of tiles. You will have 15 seconds to memorize the tiles’ locations and 30 seconds to match them correctly. Pay attention to detail and try to remember the positions of the tiles!'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -67,13 +67,39 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+    void _showEndDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Finished Memory Match Test.'),
+          content: Text('Well done - memorising so much in such little time isn\'nt an easy task. Let\'s move on to the Shape Rotation Test.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                timer?.cancel();
+                gameOver = true;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShapeRotation()),
+                );
+              },
+              child: Text('Continue'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _startGame() {
     setState(() {
       gameStarted = true;
       showAllTiles = true;
     });
 
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 15), () {
       if (mounted) {
         setState(() {
           showAllTiles = false;
@@ -91,19 +117,10 @@ class _GameScreenState extends State<GameScreen> {
         if (timeLeft > 0) {
           timeLeft--;
         } else {
-          _endGame();
+          _showEndDialog();
         }
       });
     });
-  }
-
-  void _endGame() {
-    timer?.cancel();
-    gameOver = true;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => ShapeRotation()),
-    );
   }
 
   void tileTapped(int index) {
@@ -123,7 +140,7 @@ class _GameScreenState extends State<GameScreen> {
           revealed[firstIndex] = true;
           revealed[secondIndex] = true;
           matchedPairs++;
-          Future.delayed(Duration(milliseconds: 300), () {
+          Future.delayed(Duration(milliseconds: 450), () {
             if (mounted) {
               setState(() {
                 firstIndex = -1;
@@ -145,7 +162,7 @@ class _GameScreenState extends State<GameScreen> {
         }
 
         if (matchedPairs == icons.length) {
-          _endGame();
+          _showEndDialog();
         }
       }
     });
@@ -219,21 +236,5 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     timer?.cancel();
     super.dispose();
-  }
-}
-
-
-class GameOverScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Game Over')),
-      body: Center(
-        child: Text(
-          'Neil is cool',
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
   }
 }
