@@ -44,31 +44,60 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     _initializeControllerFuture = _controller.initialize();
   }
 
-    void _showStartDialog() {
+  void _showStartDialog() {
     showDialog(
       context: context,
       barrierDismissible: false, // Prevents accidental dismissal
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Welcome to the Picture Test!'),
+          title: const Text(
+            'Welcome to the Picture Test!',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
           content: const Text(
             "In this test, you'll have to take a picture of yourself, which we will use our pre-trained machine learning models to determine your intoxication levels. Please make sure to include the entirety of your face in this picture, and ensure there are no additional distractions. Good luck.",
+            style: TextStyle(fontSize: 14),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // Rounded corners for the dialog
+            side: BorderSide(
+              color: Colors.green.shade800, // Green border for the dialog
+              width: 3, // Border width
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 setState(() {
-                   // Start game after dialog is dismissed
+                  // Start game after dialog is dismissed
                 });
               },
-              child: const Text('Start'),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.green, // Green background color for the button
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Rounded corners for the button
+                ),
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              ),
+              child: Text(
+                'Start',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white, // White text
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         );
       },
     );
   }
+
 
     void _showEndDialog() {
     showDialog(
@@ -106,25 +135,25 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      // You must wait until the controller is initialized before displaying the
-      // camera preview. Use a FutureBuilder to display a loading spinner until the
-      // controller has finished initializing.
-
-      /* HERE IS WHERE IT WONT WORK */
       body: Stack(
         children: [
+          // The background image fills the entire screen.
           Positioned.fill(
-            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+            child: Image.asset(
+              'assets/images/background/background.png',
+              fit: BoxFit.cover,
+            ),
           ),
-          //Text("Please take a photo of your whole face!"),
+
+          // Camera preview that waits for initialization.
           FutureBuilder<void>(
             future: _initializeControllerFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                // If the Future is complete, display the preview.
+                // If the controller has finished initializing, show the camera preview.
                 return CameraPreview(_controller);
               } else {
-                // Otherwise, display a loading indicator.
+                // While the controller is initializing, show a loading spinner.
                 return const Center(child: CircularProgressIndicator());
               }
             },
@@ -132,40 +161,33 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        // Provide an onPressed callback.
         onPressed: () async {
-          // Take the Picture in a try / catch block. If anything goes wrong,
-          // catch the error.
           try {
-            // Ensure that the camera is initialized.
+            // Ensure that the camera is initialized before taking a picture.
             await _initializeControllerFuture;
 
-            // Attempt to take a picture and get the file `image`
-            // where it was saved.
+            // Attempt to take a picture and save it.
             final image = await _controller.takePicture();
 
             if (!context.mounted) return;
 
-            // If the picture was taken, display it on a new screen.
+            // Navigate to a new screen to display the picture.
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder:
-                    (context) => DisplayPictureScreen(
-                      // Pass the automatically generated path to
-                      // the DisplayPictureScreen widget.
-                      imagePath: image.path,
-                    ),
+                builder: (context) => DisplayPictureScreen(
+                  imagePath: image.path,
+                ),
               ),
             );
           } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
+            print(e); // Log any errors that occur.
           }
         },
         child: const Icon(Icons.camera_alt),
       ),
       bottomNavigationBar: const Footer(),
     );
+
   }
 }
 

@@ -22,19 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-
-<<<<<<< HEAD
         body: StartTestPage(),
-        //body: ClickingGame(),
-=======
-        //body: ShapeRotation(questionNumber: 1,),
-<<<<<<< HEAD
-        //body: StartTestPage(),
-        body: ResultsPage(),
-=======
-        body: StartTestPage(),
->>>>>>> 70fbebc5112c1b4a31e0026865099835b712e33a
->>>>>>> 4aec3fc3bf406324d721e45d27af1b72145bcce0
       ),
     );
   }

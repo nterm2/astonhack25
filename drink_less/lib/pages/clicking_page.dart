@@ -146,27 +146,37 @@ class _ClickingPageState extends State<ClickingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: GestureDetector(
-        onTapDown: (details) {
-          if (gameStarted) {
-            cs.onClick(details.localPosition);
-          }
-        },
-        child: gameStarted // Prevent animation before game starts
-            ? TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0.0, end: 1.0),
-                duration: const Duration(seconds: 100),
-                builder: (context2, value, child) {
-                  _checkGameEnd(value);
-                  return CustomPaint(
-                    size: Size.infinite,
-                    painter: Clicking(cs: cs),
-                  );
-                },
-              )
-            : Container(color: Colors.white), // Blank screen before game starts
+      body: Stack(  // Stack widget to overlay the background and the game content
+        children: [
+          // Positioned.fill ensures the background image covers the entire screen
+          Positioned.fill(
+            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+          ),
+
+          GestureDetector(
+            onTapDown: (details) {
+              if (gameStarted) {
+                cs.onClick(details.localPosition);
+              }
+            },
+            child: gameStarted // Prevent animation before game starts
+                ? TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.0, end: 1.0),
+                    duration: const Duration(seconds: 100),
+                    builder: (context2, value, child) {
+                      _checkGameEnd(value);
+                      return CustomPaint(
+                        size: Size.infinite,
+                        painter: Clicking(cs: cs),
+                      );
+                    },
+                  )
+                : Container(color: Colors.white), // Blank screen before game starts
+          ),
+        ],
       ),
       bottomNavigationBar: const Footer(),
     );
   }
+
 }
