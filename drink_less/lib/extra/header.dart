@@ -10,9 +10,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return false; // Prevent back navigation
       },
       child: AppBar(
+        automaticallyImplyLeading: false, // Completely removes the back arrow
         backgroundColor: const Color(0xFF388E3C), // Lighter dark green
         elevation: 2, // Subtle shadow
-        leading: null, // This removes the back arrow
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Center the row contents
           mainAxisSize: MainAxisSize.min, // Shrink to fit content
