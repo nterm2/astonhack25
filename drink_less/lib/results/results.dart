@@ -8,68 +8,6 @@ import 'package:drink_less/extra/header.dart';
 
 import 'package:drink_less/global.dart';
 
-class _DumbAhhSpiderDiagram extends StatefulWidget {
-  final List<String> categories;
-  final List<double> baselineValues;
-  final List<double> todayValues;
-
-  const _DumbAhhSpiderDiagram({
-    super.key,
-    required this.categories,
-    required this.baselineValues,
-    required this.todayValues,
-  });
-
-  @override
-  State<_DumbAhhSpiderDiagram> createState() => _DumbAhhSpiderDiagramState();
-}
-
-class _DumbAhhSpiderDiagramState extends State<_DumbAhhSpiderDiagram> {
-  int selectedIndex = -1;
-
-  RadarDataSet buildDataSet(List<double> list, Color color, bool selected) {
-    return RadarDataSet(
-      dataEntries: list.map((value) => RadarEntry(value: value)).toList(),
-      borderColor: color.withValues(alpha: selected ? 1 : 0.25),
-      fillColor: color.withValues(alpha: selected ? 0.2 : 0.05),
-      borderWidth: selected ? 2.5 : 2,
-      entryRadius: selected ? 3 : 2,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RadarChart(
-      RadarChartData(
-        dataSets: [
-          buildDataSet(widget.baselineValues, Colors.blue, selectedIndex == 0),
-          buildDataSet(widget.todayValues, Colors.red, selectedIndex == 1),
-        ],
-        radarBorderData: BorderSide.none,
-        titlePositionPercentageOffset: 0.2,
-        getTitle: (index, _) {
-          return RadarChartTitle(text: widget.categories[index]);
-        },
-        tickCount: 4,
-        ticksTextStyle: TextStyle(color: Colors.transparent, fontSize: 12),
-        tickBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)),
-        gridBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)),
-        radarBackgroundColor: Colors.transparent,
-        radarTouchData: RadarTouchData(
-          enabled: true,
-          touchCallback: (p0, p1) {
-            if (p1 == null) return;
-            if (p1.touchedSpot == null) return;
-            setState(() {
-              selectedIndex = p1.touchedSpot!.touchedDataSetIndex;
-            });
-          },
-        ),
-      ),
-    );
-  }
-}
-
 class ResultsPage extends StatelessWidget {
   const ResultsPage({super.key});
 
@@ -204,10 +142,53 @@ class ResultsPage extends StatelessWidget {
                     height: 300, // Set a fixed height for charts
                     child: Padding(
                       padding: EdgeInsets.zero,
-                      child: _DumbAhhSpiderDiagram(
-                        baselineValues: baselineValues,
-                        categories: categories,
-                        todayValues: todayValues,
+                      child: RadarChart(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                        RadarChartData(
+                          dataSets: [
+                            RadarDataSet(
+                              dataEntries:
+                                  baselineValues
+                                      .map((value) => RadarEntry(value: value))
+                                      .toList(),
+                              borderColor: Colors.blue,
+                              fillColor: Colors.blue.withOpacity(0.2),
+                              borderWidth: 2,
+                              entryRadius: 4, // Add points on the blue line
+                            ),
+                            RadarDataSet(
+                              dataEntries:
+                                  todayValues
+                                      .map((value) => RadarEntry(value: value))
+                                      .toList(),
+                              borderColor: Colors.red,
+                              fillColor: Colors.red.withOpacity(0.2),
+                              borderWidth: 2,
+                              entryRadius: 4, // Add points on the green line
+                            ),
+                          ],
+                          radarBorderData: BorderSide.none,
+                          titlePositionPercentageOffset: 0.2,
+                          getTitle: (index, _) {
+                            return RadarChartTitle(text: categories[index]);
+                          },
+                          tickCount: 4,
+                          ticksTextStyle: TextStyle(
+                            color: Colors.transparent,
+                            fontSize: 12,
+                          ),
+                          tickBorderData: BorderSide(
+                            color: Colors.grey.withOpacity(0.5),
+                          ),
+                          gridBorderData: BorderSide(
+                            color: Colors.grey.withOpacity(0.5),
+                          ),
+                          radarBackgroundColor: Colors.transparent,
+                          radarTouchData: RadarTouchData(
+                              enabled: true,
+                          ),
+                        ),
                       ),
                     ),
                   ),
