@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        body: ShapeRotation(questionNumber: 1,),
-        //body: ClickingGame(),
+        //body: ShapeRotation(questionNumber: 1,),
+        body: StartTestPage(),
       ),
     );
   }

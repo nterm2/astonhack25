@@ -55,7 +55,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // controller has finished initializing.
       body: Column(
         children: [
-          Text("Please take a photo of your whole face!"),
+          //Text("Please take a photo of your whole face!"),
           FutureBuilder<void>(
             future: _initializeControllerFuture,
             builder: (context, snapshot) {
@@ -103,6 +103,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
         child: const Icon(Icons.camera_alt),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
@@ -116,7 +117,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
+      appBar: CustomAppBar(),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: FutureBuilder(
