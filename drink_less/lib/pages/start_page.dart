@@ -33,8 +33,38 @@ class StartTestPage extends StatelessWidget {
           Positioned.fill(
             child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
           ),
-
           
+          const SizedBox(height: 10),
+          // The container now only wraps the text
+          Align(
+            alignment: Alignment.topCenter, // Positioning it at the top
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                borderRadius: BorderRadius.circular(12), // Rounded corners
+                border: Border.all(
+                  color: Colors.green.shade800, // Dark strong green outline
+                  width: 3, // Outline width
+                ),
+              ),
+              padding: const EdgeInsets.all(16), // Padding inside the container
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Ensures the column takes only as much space as needed
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16), // Space between the top and the text
+                  const Text(
+                    '''Welcome Jonathan! This is a supportive space designed to help you grow!
+                    \nWe understand that making changes in habits can be challenging, and we’re here to guide you every step of the way.
+                    \nWe’re excited to support your journey toward a healthier, more balanced life.''',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
+          // The button is centered at the bottom
           Center(
             child: ElevatedButton(
               onPressed: () async => await takePicture(context),
@@ -55,11 +85,11 @@ class StartTestPage extends StatelessWidget {
               ),
             ),
           ),
-          
         ],
       ),
       bottomNavigationBar: const Footer(),
     );
+
   }
   
 }
