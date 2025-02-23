@@ -86,7 +86,8 @@ class _StartTestPageState extends State<StartTestPage> {
 
                                   for (double i = 1; i < snapshot.data!; i += 1) {
                                     await Future.delayed(Duration(milliseconds: 20));
-                                    print(i);
+                                    double ef = 1 - (i / snapshot.data!);
+                                    i += ef - 1;
                                     inputValue?.change(i);
                                   }
                                 }
