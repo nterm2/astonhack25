@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -9,7 +8,7 @@ import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
 class ResultsPage extends StatelessWidget {
-  const ResultsPage({Key? key}) : super(key: key);
+  const ResultsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +183,8 @@ class ResultsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
-                      \nEven if today feels challenging, remember: it\'s about the effort, not perfection. This is a step closer to the future you envision.''',
+                      '''Today is about reflection and intention. This chart shows how you're doing compared to your baseline or target.
+                      \nEven if today feels challenging, remember: it's about the effort, not perfection. This is a step closer to the future you envision.''',
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
