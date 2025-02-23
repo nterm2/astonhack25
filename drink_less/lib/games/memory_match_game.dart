@@ -294,9 +294,6 @@ void _showEndDialog() {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 10),
-
-          //Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20)),
-
           Container(
             decoration: BoxDecoration(
               color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
