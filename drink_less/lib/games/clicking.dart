@@ -72,7 +72,7 @@ class ClickingState {
       _addNewBlock(size);
     }
 
-    return count >= 20 && points.isEmpty;
+    return count >= 20 && points.isEmpty && correct.isEmpty;
   }
 
   void _addNewBlock(Size size) {
