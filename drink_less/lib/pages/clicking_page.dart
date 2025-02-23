@@ -118,10 +118,9 @@ class _ClickingPageState extends State<ClickingPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                setState(() {
-                  gameStarted = true; // Start game after dialog is dismissed
-                });
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MemoryMatchGame()),
+                );
               },
               child: const Text('Continue'),
             ),
@@ -138,9 +137,7 @@ class _ClickingPageState extends State<ClickingPage> {
       });
 
       Future.microtask(() {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => MemoryMatchGame()),
-        );
+        _showEndDialog();
       });
     }
   }
