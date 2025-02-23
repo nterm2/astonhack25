@@ -16,22 +16,22 @@ class ResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dummy data - need to read from json file
     final results = Results(
-      baseline: 60,
-      todayReactionResult: 40.0,
-      todayMemoryResult: 50.0,
-      todayPsychometricResult: 90.0,
-      todayAIResult: 70.0,
-      day7: 70.0,
-      day6: 70.0,
-      day5: 70.0,
-      day4: 30.0,
-      day3: 30.0,
-      day2: 30.0,
-      day1: 50.0,
-      reactionAverage: 54.0,
-      memoryAverage: 54.0,
-      psychometricAverage: 54.0,
-      AIAverage: 54.0,
+      baseline: 55,
+      todayReactionResult: 78.0,
+      todayMemoryResult: 81.0,
+      todayPsychometricResult: 67.0,
+      todayAIResult: 75.0,
+      day7: 61.0,
+      day6: 64.0,
+      day5: 59.0,
+      day4: 53.0,
+      day3: 49.0,
+      day2: 42,
+      day1: 35.0,
+      reactionAverage: 64.0,
+      memoryAverage: 73.0,
+      psychometricAverage: 68.0,
+      AIAverage: 81.0,
     );
 
     // Radar chart data
