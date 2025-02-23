@@ -54,26 +54,79 @@ class _ShapeRotationState extends State<ShapeRotation> {
       context: context,
       barrierDismissible: false, // Prevents accidental dismissal
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Welcome to Shape Rotation!'),
-          content: Text(
-            'Choose the correct rotated shape to advance to the next question.',
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // Rounded corners
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                setState(() {
-                  gameStarted = true; // Game starts after modal is dismissed
-                });
-              },
-              child: Text('OK'),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.1), // Light green transparent background
+              borderRadius: BorderRadius.circular(12), // Rounded corners
+              border: Border.all(
+                color: Colors.green.shade800, // Dark green outline
+                width: 3, // Outline width
+              ),
             ),
-          ],
+            padding: const EdgeInsets.all(16), // Padding inside the container
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Wrap content only
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Welcome to Shape Rotation!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green, // Highlighted green text
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing
+                const Text(
+                  'Choose the correct rotated shape to advance to the next question.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87, // Softer black for text
+                    height: 1.5, // Line height for better readability
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing before the button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                      setState(() {
+                        gameStarted = true; // Game starts after modal is dismissed
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green, // Green background color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12), // Curved edges
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
+                      ), // Button padding
+                    ),
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white, // White text
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,46 +134,59 @@ class _ShapeRotationState extends State<ShapeRotation> {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      body: gameStarted
-          ? Column(
+      body: Stack(  
         children: [
-          Padding(padding: EdgeInsets.all(20), child: sar.question),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: sar
-                .getAnswers()
-                .map(
-                  (c) => Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => widget.questionNumber < 5
-                                  ? ShapeRotation(questionNumber: widget.questionNumber + 1)
-                                  : StartTestPage(),
-                            ),
-                          );
-                        },
-                        child: c.$1,
-                      ),
-                      Text(c.$2),
-                    ],
-                  ),
-                ),
-              ),
-            )
-                .toList(),
+          // Background image in the Stack
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background/background.png', 
+              fit: BoxFit.cover, 
+            ),
           ),
+          // Content in the Column
+          gameStarted
+              ? Column(
+                  children: [
+                    Padding(padding: EdgeInsets.all(20), child: sar.question),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: sar
+                          .getAnswers()
+                          .map(
+                            (c) => Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => widget.questionNumber < 5
+                                                ? ShapeRotation(questionNumber: widget.questionNumber + 1)
+                                                : StartTestPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: c.$1,
+                                    ),
+                                    Text(c.$2),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                )
+              : Center(
+                  child: CircularProgressIndicator(), // Loader while waiting
+                ),
         ],
-      )
-          : Center(
-        child: CircularProgressIndicator(), // Shows a loader until the modal is dismissed
       ),
+
       bottomNavigationBar: const Footer(),
     );
   }

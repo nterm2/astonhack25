@@ -161,29 +161,109 @@ class _ClickingGameState extends State<ClickingGame> {
       context: context,
       barrierDismissible: false, // Prevents accidental dismiss
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Welcome to the Clicking Game!'),
-          content: Text('Click on the shapes as they appear to score points!'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-                setState(() {
-                  gameStarted = true; // Start game after dismissing dialog
-                });
-              },
-              child: Text('Start'),
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // Rounded corners
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.1), // Light green transparent background
+              borderRadius: BorderRadius.circular(12), // Rounded corners
+              border: Border.all(
+                color: Colors.green.shade800, // Dark green outline
+                width: 3, // Outline width
+              ),
             ),
-          ],
+            padding: const EdgeInsets.all(16), // Padding inside the container
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Wrap content only
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Welcome to the Clicking Game!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green, // Highlighted green text
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing
+                const Text(
+                  'Click on the shapes as they appear to score points!',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87, // Softer black for text
+                    height: 1.5, // Line height for better readability
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing before the button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close dialog
+                      setState(() {
+                        gameStarted = true; // Start game after dismissing dialog
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green, // Green background color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12), // Curved edges
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
+                      ), // Button padding
+                    ),
+                    child: const Text(
+                      'Start',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white, // White text
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+          ),
+          // Game content or loading spinner based on the gameStarted flag
+          gameStarted
+              ? GestureDetector(
+                  onTapDown: (TapDownDetails details) {
+                    setState(() {
+                      cs.onClick(details.globalPosition);
+                    });
+                  },
+                  child: CustomPaint(
+                    size: Size.infinite,
+                    painter: Clicking(cs: cs),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
+                ),
+        ],
+      ),
+
+      /*
       body: gameStarted
           ? GestureDetector(
         onTapDown: (TapDownDetails details) {
@@ -199,6 +279,7 @@ class _ClickingGameState extends State<ClickingGame> {
           : Center(
         child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
       ),
+      */
       bottomNavigationBar: const Footer(),
     );
   }
