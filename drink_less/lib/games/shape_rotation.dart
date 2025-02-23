@@ -1,6 +1,5 @@
 
 import 'package:drink_less/pages/start_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drink_less/extra/footer.dart';
