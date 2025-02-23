@@ -36,8 +36,10 @@ class _ClickingPageState extends State<ClickingPage> {
           ),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.1), // Light green transparent background
-              borderRadius: BorderRadius.circular(12), // Rounded corners
+              color: Colors.green.withOpacity(0.1),
+              // Light green transparent background
+              borderRadius: BorderRadius.circular(12),
+              // Rounded corners
               border: Border.all(
                 color: Colors.green.shade800, // Dark green outline
                 width: 3, // Outline width
@@ -72,13 +74,16 @@ class _ClickingPageState extends State<ClickingPage> {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
                       setState(() {
-                        gameStarted = true; // Start the game after dialog is dismissed
+                        gameStarted =
+                            true; // Start the game after dialog is dismissed
                       });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green, // Green background color
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // Rounded corners
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ), // Rounded corners
                       ),
                       padding: const EdgeInsets.symmetric(
                         vertical: 12,
@@ -103,8 +108,7 @@ class _ClickingPageState extends State<ClickingPage> {
     );
   }
 
-
-    void _showEndDialog() {
+  void _showEndDialog() {
     showDialog(
       context: context,
       barrierDismissible: false, // Prevents accidental dismissal
@@ -131,9 +135,9 @@ class _ClickingPageState extends State<ClickingPage> {
 
   void _checkGameEnd(double value) {
     if (!gameEnded && cs.update(MediaQuery.of(context).size, value)) {
-      setState(() {
-        gameEnded = true; // Ensures navigation only happens once
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => setState(() => gameEnded = true),
+      );
 
       Future.microtask(() {
         _showEndDialog();
@@ -145,11 +149,15 @@ class _ClickingPageState extends State<ClickingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Stack(  // Stack widget to overlay the background and the game content
+      body: Stack(
+        // Stack widget to overlay the background and the game content
         children: [
           // Positioned.fill ensures the background image covers the entire screen
           Positioned.fill(
-            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+            child: Image.asset(
+              'assets/images/background/background.png',
+              fit: BoxFit.cover,
+            ),
           ),
 
           GestureDetector(
@@ -158,24 +166,26 @@ class _ClickingPageState extends State<ClickingPage> {
                 cs.onClick(details.localPosition);
               }
             },
-            child: gameStarted // Prevent animation before game starts
-                ? TweenAnimationBuilder<double>(
-                    tween: Tween<double>(begin: 0.0, end: 1.0),
-                    duration: const Duration(seconds: 100),
-                    builder: (context2, value, child) {
-                      _checkGameEnd(value);
-                      return CustomPaint(
-                        size: Size.infinite,
-                        painter: Clicking(cs: cs),
-                      );
-                    },
-                  )
-                : Container(color: Colors.white), // Blank screen before game starts
+            child:
+                gameStarted // Prevent animation before game starts
+                    ? TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0.0, end: 1.0),
+                      duration: const Duration(seconds: 100),
+                      builder: (context2, value, child) {
+                        _checkGameEnd(value);
+                        return CustomPaint(
+                          size: Size.infinite,
+                          painter: Clicking(cs: cs),
+                        );
+                      },
+                    )
+                    : Container(
+                      color: Colors.white,
+                    ), // Blank screen before game starts
           ),
         ],
       ),
       bottomNavigationBar: const Footer(),
     );
   }
-
 }
