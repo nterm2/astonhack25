@@ -81,7 +81,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome to Shape Rotation!',
+                  'Shape Rotation Test',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
                 ),
                 const SizedBox(height: 16), // Spacing
                 const Text(
-                  'Choose the correct rotated shape to advance to the next question.',
+                  'You will be shown a series of rotated shapes, and your task is to select the correct shape that fits the pattern. This exercise helps evaluate your visual-spatial reasoning and cognitive flexibility, which can be impacted by alcohol consumption. Take your time to carefully analyse the shapes, as this will give valuable insight into your cognitive abilities.',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black87, // Softer black for text
@@ -119,7 +119,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
                       ), // Button padding
                     ),
                     child: const Text(
-                      'OK',
+                      'Start',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white, // White text
