@@ -40,7 +40,7 @@ class _StartTestPageState extends State<StartTestPage> {
 
   Future<double> getDays() async {
     // TODO fetch days from server
-    return await Future.delayed(Duration(seconds: 2), () => 40);
+    return await Future.delayed(Duration.zero, () => 40);
   }
 
   @override
