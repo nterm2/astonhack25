@@ -39,6 +39,8 @@ class _StartTestPageState extends State<StartTestPage> {
       appBar: CustomAppBar(),
       body: Stack(
         children: [
+
+
           // Use the aliased 'flutter_widgets.Image' for Flutter's Image
           Positioned.fill(
             child: flutter_widgets.Image.asset(
@@ -46,7 +48,30 @@ class _StartTestPageState extends State<StartTestPage> {
               fit: BoxFit.cover,
             ),
           ),
-          
+
+          Positioned.fill(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                Colors.transparent, // Apply transparency to the tree animation
+                BlendMode.srcOver,
+              ),
+              child: RiveAnimation.asset(
+                "assets/tree-demo.riv",
+                fit: BoxFit.fitHeight,
+                onInit: (artboard) {
+                  controller = StateMachineController.fromArtboard(
+                    artboard,
+                    "State Machine 1",
+                  );
+                  if (controller != null) {
+                    artboard.addController(controller!);
+                    inputValue = controller?.findInput("input");
+                    inputValue?.change(1);  // Set initial animation state
+                  }
+                },
+              ),
+            ),
+          ),
           // The container now only wraps the text
           Align(
             alignment: Alignment.topCenter, // Positioning it at the top
@@ -99,29 +124,7 @@ class _StartTestPageState extends State<StartTestPage> {
           ),
 
           // Rive Animation (Tree Animation)
-          Positioned.fill(
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                Colors.transparent, // Apply transparency to the tree animation
-                BlendMode.srcOver,
-              ),
-              child: RiveAnimation.asset(
-                "assets/tree-demo.riv",
-                fit: BoxFit.fitHeight,
-                onInit: (artboard) {
-                  controller = StateMachineController.fromArtboard(
-                    artboard,
-                    "State Machine 1",
-                  );
-                  if (controller != null) {
-                    artboard.addController(controller!);
-                    inputValue = controller?.findInput("input");
-                    inputValue?.change(1);  // Set initial animation state
-                  }
-                },
-              ),
-            ),
-          ),
+
 
           
           // Add slider control for animation
