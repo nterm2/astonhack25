@@ -19,7 +19,6 @@ class _StartTestPageState extends State<StartTestPage> {
   // Rive-related variables
   StateMachineController? controller;
   SMIInput<double>? inputValue;
-  double valueSlider = 0;
 
   Future<void> takePicture(BuildContext context) async {
     final cameras = await availableCameras();
@@ -33,14 +32,17 @@ class _StartTestPageState extends State<StartTestPage> {
     );
   }
 
+  Future<double> getDays() async {
+    // TODO fetch days from server
+    return await Future.delayed(Duration(seconds: 2), () => 40);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Stack(
         children: [
-
-
           // Use the aliased 'flutter_widgets.Image' for Flutter's Image
           Positioned.fill(
             child: flutter_widgets.Image.asset(
@@ -49,36 +51,50 @@ class _StartTestPageState extends State<StartTestPage> {
             ),
           ),
 
-          Positioned.fill(
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                Colors.transparent, // Apply transparency to the tree animation
-                BlendMode.srcOver,
-              ),
-              child: RiveAnimation.asset(
-                "assets/tree-demo.riv",
-                fit: BoxFit.fitHeight,
-                onInit: (artboard) {
-                  controller = StateMachineController.fromArtboard(
-                    artboard,
-                    "State Machine 1",
-                  );
-                  if (controller != null) {
-                    artboard.addController(controller!);
-                    inputValue = controller?.findInput("input");
-                    inputValue?.change(1);  // Set initial animation state
-                  }
-                },
-              ),
-            ),
+          FutureBuilder<double>(
+            future: getDays(),
+            builder:
+                (context, snapshot) =>
+                    snapshot.hasData
+                        ? Positioned.fill(
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Colors.transparent,
+                              // Apply transparency to the tree animation
+                              BlendMode.srcOver,
+                            ),
+                            child: RiveAnimation.asset(
+                              "assets/tree-demo.riv",
+                              animations: ['none'],
+                              placeHolder: CircularProgressIndicator(),
+                              fit: BoxFit.fitHeight,
+                              onInit: (artboard) {
+                                controller =
+                                    StateMachineController.fromArtboard(
+                                      artboard,
+                                      "State Machine 1",
+                                    );
+
+                                if (controller != null) {
+                                  artboard.addController(controller!);
+                                  inputValue = controller?.findInput("input");
+                                  inputValue?.change(snapshot.data!);
+                                }
+                              },
+                            ),
+                          ),
+                        )
+                        : CircularProgressIndicator(),
           ),
           // The container now only wraps the text
           Align(
             alignment: Alignment.topCenter, // Positioning it at the top
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                borderRadius: BorderRadius.circular(12), // Rounded corners
+                color: Colors.green.withOpacity(0.1),
+                // Light calm green background (transparent)
+                borderRadius: BorderRadius.circular(12),
+                // Rounded corners
                 border: Border.all(
                   color: Colors.green.shade800, // Dark strong green outline
                   width: 3, // Outline width
@@ -86,10 +102,12 @@ class _StartTestPageState extends State<StartTestPage> {
               ),
               padding: const EdgeInsets.all(16), // Padding inside the container
               child: Column(
-                mainAxisSize: MainAxisSize.min, // Ensures the column takes only as much space as needed
+                mainAxisSize: MainAxisSize.min,
+                // Ensures the column takes only as much space as needed
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16), // Space between the top and the text
+                  const SizedBox(height: 16),
+                  // Space between the top and the text
                   const Text(
                     '''Welcome Jonathan! This is a supportive space designed to help you grow!
                     \nWe understand that making changes in habits can be challenging, and we’re here to guide you every step of the way.
@@ -100,7 +118,7 @@ class _StartTestPageState extends State<StartTestPage> {
               ),
             ),
           ),
-          
+
           // The button is centered at the bottom
           Center(
             child: ElevatedButton(
@@ -125,39 +143,13 @@ class _StartTestPageState extends State<StartTestPage> {
 
           // Rive Animation (Tree Animation)
 
-
-          
           // Add slider control for animation
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 60),
-                child: Slider(
-                  activeColor: Colors.green,
-                  inactiveColor: Colors.green.withOpacity(0.5),
-                  value: valueSlider,
-                  onChanged: (v) {
-                    setState(() {
-                      valueSlider = v;
-                    });
-                    inputValue?.change(v); // Update Rive animation state based on slider value
-                  },
-                  min: 0,
-                  max: 100,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
       bottomNavigationBar: const Footer(),
     );
   }
 }
-
-
-
 
 /*
 import 'package:camera/camera.dart';
@@ -170,7 +162,7 @@ import 'package:drink_less/extra/header.dart';
 
 class StartTestPage extends StatelessWidget {
   const StartTestPage({super.key});
- 
+
   Future<void> takePicture(BuildContext context) async {
     final cameras = await availableCameras();
     final fCam = cameras.firstWhere(
@@ -184,8 +176,8 @@ class StartTestPage extends StatelessWidget {
   }
 
 
-  
-  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,7 +187,7 @@ class StartTestPage extends StatelessWidget {
           Positioned.fill(
             child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
           ),
-          
+
           const SizedBox(height: 10),
           // The container now only wraps the text
           Align(
@@ -225,7 +217,7 @@ class StartTestPage extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // The button is centered at the bottom
           Center(
             child: ElevatedButton(
@@ -253,6 +245,6 @@ class StartTestPage extends StatelessWidget {
     );
 
   }
-  
+
 }
 */

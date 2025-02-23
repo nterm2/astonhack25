@@ -20,10 +20,14 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-      : question = Image.asset("assets/images/q$qn/Q.png"),
-        answer = Image.asset("assets/images/q$qn/Answer.png"),
-        options =
-        ["B", "C", "D"].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
+    : question = Image.asset("assets/images/q$qn/Q.png"),
+      answer = Image.asset("assets/images/q$qn/Answer.png"),
+      options =
+          [
+            "B",
+            "C",
+            "D",
+          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -46,7 +50,8 @@ class _ShapeRotationState extends State<ShapeRotation> {
         _showStartDialog();
       });
     } else {
-      gameStarted = true; // Automatically start the game for subsequent questions
+      gameStarted =
+          true; // Automatically start the game for subsequent questions
     }
   }
 
@@ -61,8 +66,10 @@ class _ShapeRotationState extends State<ShapeRotation> {
           ),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.1), // Light green transparent background
-              borderRadius: BorderRadius.circular(12), // Rounded corners
+              color: Colors.green.withOpacity(0.1),
+              // Light green transparent background
+              borderRadius: BorderRadius.circular(12),
+              // Rounded corners
               border: Border.all(
                 color: Colors.green.shade800, // Dark green outline
                 width: 3, // Outline width
@@ -97,7 +104,8 @@ class _ShapeRotationState extends State<ShapeRotation> {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
                       setState(() {
-                        gameStarted = true; // Game starts after modal is dismissed
+                        gameStarted =
+                            true; // Game starts after modal is dismissed
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -128,63 +136,71 @@ class _ShapeRotationState extends State<ShapeRotation> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     final sar = SAR(widget.questionNumber);
 
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Stack(  
+      body: Stack(
         children: [
           // Background image in the Stack
           Positioned.fill(
             child: Image.asset(
-              'assets/images/background/background.png', 
-              fit: BoxFit.cover, 
+              'assets/images/background/background.png',
+              fit: BoxFit.cover,
             ),
           ),
           // Content in the Column
           gameStarted
               ? Column(
-                  children: [
-                    Padding(padding: EdgeInsets.all(20), child: sar.question),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: sar
-                          .getAnswers()
-                          .map(
-                            (c) => Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Column(
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => widget.questionNumber < 5
-                                                ? ShapeRotation(questionNumber: widget.questionNumber + 1)
-                                                : StartTestPage(),
-                                          ),
-                                        );
-                                      },
-                                      child: c.$1,
-                                    ),
-                                    Text(c.$2),
-                                  ],
+                children: [
+                  Padding(padding: EdgeInsets.all(20), child: sar.question),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:
+                        sar
+                            .getAnswers()
+                            .map(
+                              (c) => Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Column(
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (c.$1 == sar.answer)
+                                            print("RIGHT ANSWER");
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) =>
+                                                      widget.questionNumber < 5
+                                                          ? ShapeRotation(
+                                                            questionNumber:
+                                                                widget
+                                                                    .questionNumber +
+                                                                1,
+                                                          )
+                                                          : StartTestPage(),
+                                            ),
+                                          );
+                                        },
+                                        child: c.$1,
+                                      ),
+                                      Text(c.$2),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
-                )
+                            )
+                            .toList(),
+                  ),
+                ],
+              )
               : Center(
-                  child: CircularProgressIndicator(), // Loader while waiting
-                ),
+                child: CircularProgressIndicator(), // Loader while waiting
+              ),
         ],
       ),
 
