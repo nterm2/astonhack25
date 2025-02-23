@@ -29,7 +29,14 @@ class _PicturePageState extends State<PicturePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Column(children: [Text("Take picture")]),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+          ),
+          Text("Take picture"),
+        ]
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async => await takePicture(context),
       ),
