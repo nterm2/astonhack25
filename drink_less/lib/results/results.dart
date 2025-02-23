@@ -7,6 +7,8 @@ import 'package:drink_less/pages/start_page.dart';
 import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
+import 'package:drink_less/global.dart';
+
 class ResultsPage extends StatelessWidget {
   const ResultsPage({super.key});
 
@@ -14,30 +16,30 @@ class ResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dummy data - need to read from json file
     final results = Results(
-      baseline: 60,
-      todayReactionResult: 40.0,
-      todayMemoryResult: 50.0,
-      todayPsychometricResult: 90.0,
-      todayAIResult: 70.0,
-      day7: 70.0,
-      day6: 70.0,
-      day5: 70.0,
-      day4: 30.0,
-      day3: 30.0,
-      day2: 30.0,
-      day1: 50.0,
-      reactionAverage: 54.0,
-      memoryAverage: 54.0,
-      psychometricAverage: 54.0,
-      AIAverage: 54.0,
+      baseline: 55,
+      todayReactionResult: 78.0,
+      todayMemoryResult: 81.0,
+      todayPsychometricResult: 67.0,
+      todayAIResult: 75.0,
+      day7: 61.0,
+      day6: 64.0,
+      day5: 59.0,
+      day4: 53.0,
+      day3: 49.0,
+      day2: 42,
+      day1: 35.0,
+      reactionAverage: 64.0,
+      memoryAverage: 73.0,
+      psychometricAverage: 68.0,
+      AIAverage: 81.0,
     );
 
     // Radar chart data
     final List<String> categories = [
-      'Reaction Test',
-      'Match Test',
-      'Shape Test',
-      'Face Test',
+      'Reaction',
+      'Match',
+      'Shape Rotation',
+      'Face',
     ];
     final List<double> baselineValues = [
       results.baseline.toDouble(),
@@ -304,7 +306,7 @@ class ResultsPage extends StatelessWidget {
                               reservedSize: 32,
                               getTitlesWidget: (value, _) {
                                 // Map indices to category names
-                                const categories = ['Reaction Test', 'Match Test', 'Shape Test', 'Face Test'];
+                                const categories = ['Reaction', 'Match', 'Shape', 'Face'];
                                 if (value.toInt() < categories.length) {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
@@ -425,6 +427,34 @@ class ResultsPage extends StatelessWidget {
                     ),
                   ),
 
+                  const SizedBox(height: 20),
+
+                  Container(  
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      border: Border.all(
+                        color: Colors.green.shade800, // Dark strong green outline
+                        width: 3, // Outline width
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Remember Your Motivation',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          globalMessage,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+
                   const SizedBox(height: 10),
 
                   ElevatedButton(
@@ -452,6 +482,7 @@ class ResultsPage extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 10),
+                  
                 ],
               ),
             ),
@@ -503,59 +534,3 @@ class Results {
     required this.AIAverage,
   });
 }
-
-/*
-    results.baseline
-    results.todayReactionResult
-    results.todayMemoryResult
-    results.todayPsychometricResult
-    results.todayAIResult
-    */
-
-/*
-    results.day7
-    results.day6
-    results.day5
-    results.day4
-    results.day3
-    results.day2
-    results.day1
-    */
-
-/*
-    results.reactionAverage
-    results.memoryAverage
-    results.psychometricAverage
-    results.AIAverage
-    */
-
-/*
-RadarChart(
-  RadarChartData(
-    dataSets: [
-      RadarDataSet(
-        dataEntries: baselineValues.map((value) => RadarEntry(value: value)).toList(),
-        borderColor: Colors.blue,
-        fillColor: Colors.blue.withOpacity(0.2),
-        borderWidth: 2,
-      ),
-      RadarDataSet(
-        dataEntries: todayValues.map((value) => RadarEntry(value: value)).toList(),
-        borderColor: Colors.green,
-        fillColor: Colors.green.withOpacity(0.2),
-        borderWidth: 2,
-      ),
-    ],
-    radarBorderData: BorderSide.none, // Remove black border
-    titlePositionPercentageOffset: 0.2, // Adjust title positions further out
-    getTitle: (index, _) {
-      return RadarChartTitle(
-        text: categories[index], // Use category names as titles
-      );
-    },
-    tickCount: 5, // Number of rings in the radar chart
-    tickBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for ticks
-    gridBorderData: BorderSide(color: Colors.grey.withOpacity(0.5)), // Style for grid lines
-  ),
-),
-*/

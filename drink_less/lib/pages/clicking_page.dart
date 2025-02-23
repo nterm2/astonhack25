@@ -114,7 +114,48 @@ class _ClickingPageState extends State<ClickingPage> {
       barrierDismissible: false, // Prevents accidental dismissal
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Finished The Clicking Test.'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Rounded corners
+            side: const BorderSide(
+              color: Color(0xFF006400), // Dark green border
+              width: 2,
+            ),
+          ),
+          backgroundColor: const Color(0xFFF1F8E9), // Light green background
+          title: const Text(
+            'Finished The Reaction Test.',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF006400), // Dark green title
+            ),
+          ),
+          content: const Text(
+            'Congrats! Hopefully catching so many shapes wasn\'t too energy consuming. We\'ll now go over towards the Memory Match Test - make sure you are on your A-Game!',
+            style: TextStyle(
+              color: Colors.black, // Black text for readability
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MemoryMatchGame()),
+                );
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black, // Black text color for the button
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+
+
+
+        /*
+        return AlertDialog(
+          title: const Text('Finished The Reaction Test.'),
           content: const Text(
             'Congrats! Hopefully catching so many shapes wasn\'nt too energy consuming. We\'ll now go over towards the Memory Match Test - make sure you are on your A-Game!',
           ),
@@ -129,6 +170,7 @@ class _ClickingPageState extends State<ClickingPage> {
             ),
           ],
         );
+        */
       },
     );
   }
