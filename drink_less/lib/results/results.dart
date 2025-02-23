@@ -185,9 +185,7 @@ class ResultsPage extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                           ),
                           radarBackgroundColor: Colors.transparent,
-                          radarTouchData: RadarTouchData(
-                              enabled: true,
-                          ),
+                          radarTouchData: RadarTouchData(enabled: true),
                         ),
                       ),
                     ),
