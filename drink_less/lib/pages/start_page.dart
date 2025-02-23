@@ -87,6 +87,9 @@ class _StartTestPageState extends State<StartTestPage> {
                         : CircularProgressIndicator(),
           ),
           // The container now only wraps the text
+        Padding(
+          padding: EdgeInsets.all(10),
+          child:
           Align(
             alignment: Alignment.topCenter, // Positioning it at the top
             child: Container(
@@ -119,6 +122,7 @@ class _StartTestPageState extends State<StartTestPage> {
             ),
           ),
 
+        ),
           // The button is centered at the bottom
           Center(
             child: ElevatedButton(
