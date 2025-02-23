@@ -1,6 +1,5 @@
 import 'package:drink_less/games/clicking.dart';
 import 'package:drink_less/games/memory_match_game.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drink_less/extra/footer.dart';
