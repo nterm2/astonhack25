@@ -135,46 +135,59 @@ class _ShapeRotationState extends State<ShapeRotation> {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      body: gameStarted
-          ? Column(
+      body: Stack(  
         children: [
-          Padding(padding: EdgeInsets.all(20), child: sar.question),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: sar
-                .getAnswers()
-                .map(
-                  (c) => Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (c.$1 == sar.answer) print("RIGHT ANSWER");
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => widget.questionNumber < 5
-                                  ? ShapeRotation(questionNumber: widget.questionNumber + 1)
-                                  : StartTestPage(),
-                            ),
-                          );
-                        },
-                        child: c.$1,
-                      ),
-                      Text(c.$2),
-                    ],
-                  ),
-                ),
-              ),
-            )
-                .toList(),
+          // Background image in the Stack
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background/background.png', 
+              fit: BoxFit.cover, 
+            ),
           ),
+          // Content in the Column
+          gameStarted
+              ? Column(
+                  children: [
+                    Padding(padding: EdgeInsets.all(20), child: sar.question),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: sar
+                          .getAnswers()
+                          .map(
+                            (c) => Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => widget.questionNumber < 5
+                                                ? ShapeRotation(questionNumber: widget.questionNumber + 1)
+                                                : StartTestPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: c.$1,
+                                    ),
+                                    Text(c.$2),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                )
+              : Center(
+                  child: CircularProgressIndicator(), // Loader while waiting
+                ),
         ],
-      )
-          : Center(
-        child: CircularProgressIndicator(), // Shows a loader until the modal is dismissed
       ),
+
       bottomNavigationBar: const Footer(),
     );
   }

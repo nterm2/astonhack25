@@ -34,7 +34,7 @@ class StartTestPage extends StatelessWidget {
             child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
           ),
 
-          /*
+          
           Center(
             child: ElevatedButton(
               onPressed: () async => await takePicture(context),
@@ -55,41 +55,11 @@ class StartTestPage extends StatelessWidget {
               ),
             ),
           ),
-          */
+          
         ],
       ),
       bottomNavigationBar: const Footer(),
     );
-
-
-
-    /*
-    return Scaffold(
-      appBar: CustomAppBar(),
-
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async => await takePicture(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, // Green background color
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12), // Curved edges
-            ),
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-          ),
-          child: Text(
-            "Start Test",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white, // White text
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: const Footer(),
-    );
-    */
   }
   
 }
