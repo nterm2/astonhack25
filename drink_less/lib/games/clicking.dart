@@ -41,7 +41,7 @@ class ClickingState {
   double deltaT = 0;
   List<ClickBlock> points = [];
   List<ClickBlock> correct = [];
-
+  
   void onClick(Offset clickLocation) {
     for (int i = 0; i < points.length; ++i) {
       if (!points[i].isClicked(clickLocation)) continue;

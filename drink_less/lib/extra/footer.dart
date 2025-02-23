@@ -11,7 +11,40 @@ class Footer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space elements apart
         children: [
-          // Left text
+          // Left: Profile picture with name
+          Row(
+            children: [
+              Container(
+                width: 40, // Size of the circle
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background
+                  shape: BoxShape.circle, // Circular shape
+                  border: Border.all(
+                    color: const Color(0xFF006400), // Dark green outline
+                    width: 2, // Outline thickness
+                  ),
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/pfp/pfp.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8), // Space between the profile picture and the name
+              const Text(
+                'Jonathan',
+                style: TextStyle(
+                  color: Colors.white, // White text
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          // Right: Copyright text
           const Text(
             '© 2025 Grow Sober',
             style: TextStyle(
@@ -19,39 +52,10 @@ class Footer extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          // Right options or links
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  // Handle "About Us" action
-                },
-                child: const Text(
-                  'About Us',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16), // Spacing between links
-              TextButton(
-                onPressed: () {
-                  // Handle "Contact" action
-                },
-                child: const Text(
-                  'Contact',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
   }
 }
+
 
