@@ -21,15 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-<<<<<<< HEAD
-      home: Scaffold(
-        body: MemoryMatchGame(),
-        //body: StartTestPage(),
-
-      ),
-=======
       home: StartTestPage(),
->>>>>>> 54bd9d25a05228a29ab2df0549375d1ab1add0c1
     );
   }
 }
