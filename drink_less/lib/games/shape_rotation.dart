@@ -1,5 +1,5 @@
+
 import 'package:drink_less/pages/start_page.dart';
-import 'package:drink_less/results/results.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +21,14 @@ class SAR {
   final List<Image> options;
 
   SAR(int qn)
-    : question = Image.asset("assets/images/q$qn/Q.png"),
-      answer = Image.asset("assets/images/q$qn/Answer.png"),
-      options =
-          [
-            "B",
-            "C",
-            "D",
-          ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
+      : question = Image.asset("assets/images/q$qn/Q.png"),
+        answer = Image.asset("assets/images/q$qn/Answer.png"),
+        options =
+        [
+          "B",
+          "C",
+          "D",
+        ].map((n) => Image.asset("assets/images/q$qn/$n.png")).toList();
 
   List<(Image, String)> getAnswers() {
     var lst = List<Image>.from(options);
@@ -40,7 +40,7 @@ class SAR {
 
 class _ShapeRotationState extends State<ShapeRotation> {
   bool gameStarted = false; // Ensures game starts only after modal dismissal
-  int numCorrectAnswers = 0;
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +52,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
       });
     } else {
       gameStarted =
-          true; // Automatically start the game for subsequent questions
+      true; // Automatically start the game for subsequent questions
     }
   }
 
@@ -106,7 +106,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
                       Navigator.of(context).pop(); // Close the dialog
                       setState(() {
                         gameStarted =
-                            true; // Game starts after modal is dismissed
+                        true; // Game starts after modal is dismissed
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -155,89 +155,53 @@ class _ShapeRotationState extends State<ShapeRotation> {
           // Content in the Column
           gameStarted
               ? Column(
-<<<<<<< HEAD
-                  children: [
-                    Padding(padding: EdgeInsets.all(20), child: sar.question),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: sar
-                          .getAnswers()
-                          .map(
-                            (c) => Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Column(
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (c.$1 == sar.answer) numCorrectAnswers++;
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              if (widget.questionNumber < 5) {
-                                              return ShapeRotation(questionNumber: widget.questionNumber + 1);
-                                            } else {
-                                              // Isaac
-                                              double shape_rotation_result = (numCorrectAnswers / 5) * 100;
-                                              return ResultsPage();
-                                            }
-                                            }
-                                          ),
-                                        );
-                                      },
-                                      child: c.$1,
-                                    ),
-                                    Text(c.$2),
-                                  ],
-=======
-                children: [
-                  Padding(padding: EdgeInsets.all(20), child: sar.question),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:
-                        sar
-                            .getAnswers()
-                            .map(
-                              (c) => Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (c.$1 == sar.answer)
-                                            print("RIGHT ANSWER");
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder:
-                                                  (context) =>
-                                                      widget.questionNumber < 5
-                                                          ? ShapeRotation(
-                                                            questionNumber:
-                                                                widget
-                                                                    .questionNumber +
-                                                                1,
-                                                          )
-                                                          : StartTestPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: c.$1,
-                                      ),
-                                      Text(c.$2),
-                                    ],
-                                  ),
->>>>>>> d6ac43218bea6da3fdae5a0f0d2dcfc4f0c9a94d
+            children: [
+              Padding(padding: EdgeInsets.all(20), child: sar.question),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                sar
+                    .getAnswers()
+                    .map(
+                      (c) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              if (c.$1 == sar.answer)
+                                print("RIGHT ANSWER");
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                  widget.questionNumber < 5
+                                      ? ShapeRotation(
+                                    questionNumber:
+                                    widget
+                                        .questionNumber +
+                                        1,
+                                  )
+                                      : StartTestPage(),
                                 ),
-                              ),
-                            )
-                            .toList(),
+                              );
+                            },
+                            child: c.$1,
+                          ),
+                          Text(c.$2),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              )
-              : Center(
-                child: CircularProgressIndicator(), // Loader while waiting
+                )
+                    .toList(),
               ),
+            ],
+          )
+              : Center(
+            child: CircularProgressIndicator(), // Loader while waiting
+          ),
         ],
       ),
 
