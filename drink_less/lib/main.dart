@@ -1,4 +1,5 @@
 import 'package:drink_less/games/clicking.dart';
+import 'package:drink_less/games/shape_rotation.dart';
 import 'package:drink_less/games/memory_match_game.dart';
 import 'package:drink_less/pages/clicking_page.dart';
 import 'package:drink_less/pages/start_page.dart';
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        //body: ShapeRotation(questionNumber: 1,),
-        body: MemoryMatchGame(),
+        body: ShapeRotation(questionNumber: 1,),
+        //body: ClickingGame(),
       ),
     );
   }
