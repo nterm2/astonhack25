@@ -54,7 +54,6 @@ class ClickingState {
   }
 
   bool update(Size size, double dt) {
-    print("count: $count, len: ${points.length}");
     deltaT = dt - odt;
     odt = dt;
 

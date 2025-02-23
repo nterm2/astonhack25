@@ -1,10 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:http/http.dart' as http;
 
 // Currently the emulator local host -- change accordingly when hosted properly
