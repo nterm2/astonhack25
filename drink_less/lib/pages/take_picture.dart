@@ -208,6 +208,10 @@ class DisplayPictureScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              // Isaac 
+              bool isDrunk = false; // Make API call to the server
+              double drunkScore = 0; // Make API call to the server.
+              // then send data to server? Or store in persistance. 
               Navigator.of(
                 context,
               ).push(MaterialPageRoute(builder: (context) => ClickingPage()));

@@ -37,6 +37,8 @@ class _GameScreenState extends State<GameScreen> {
   bool gameStarted = false;
   bool isChecking = false; // Prevents excessive taps
 
+  bool memorizationPhase = true; // Tracks whether the memorization phase is active
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +50,7 @@ class _GameScreenState extends State<GameScreen> {
       _showStartDialog();
     });
   }
+
 
   void _showStartDialog() {
     showDialog(
@@ -180,6 +183,8 @@ void _showEndDialog() {
                     onPressed: () {
                       timer?.cancel();
                       gameOver = true;
+                      // ISAAC
+                      double ratio_correctly_matched = (matchedPairs / attempts) * 100;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => ShapeRotation()),
@@ -215,35 +220,37 @@ void _showEndDialog() {
 }
 
 
-  void _startGame() {
-    setState(() {
-      gameStarted = true;
-      showAllTiles = true;
-    });
+void _startGame() {
+  setState(() {
+    gameStarted = true;
+    showAllTiles = true;
+    memorizationPhase = true; // Start with memorization phase
+    timeLeft = 45; // Total time including memorization
+  });
 
-    Future.delayed(Duration(seconds: 15), () {
-      if (mounted) {
-        setState(() {
-          showAllTiles = false;
-        });
+  Future.delayed(Duration(seconds: 15), () {
+    if (mounted) {
+      setState(() {
+        showAllTiles = false;
+        memorizationPhase = false; // End memorization phase
+      });
+    }
+  });
+
+  startTimer();
+}
+void startTimer() {
+  timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    if (!mounted) return;
+    setState(() {
+      if (timeLeft > 0) {
+        timeLeft--;
+      } else {
+        _showEndDialog();
       }
     });
-
-    startTimer();
-  }
-
-  void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (!mounted) return;
-      setState(() {
-        if (timeLeft > 0) {
-          timeLeft--;
-        } else {
-          _showEndDialog();
-        }
-      });
-    });
-  }
+  });
+}
 
   void tileTapped(int index) {
     if (!gameStarted || isChecking || revealed[index] || firstIndex == index || gameOver || showAllTiles) {
@@ -324,7 +331,12 @@ void _showEndDialog() {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Time Left: $timeLeft s', style: TextStyle(fontSize: 20, color: Colors.white,),),
+                    Text(
+                      memorizationPhase 
+                        ? 'Memorize: ${timeLeft - 30} s' 
+                        : 'Time Left: $timeLeft s',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ],
                 ),
               ),
