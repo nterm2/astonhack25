@@ -1,14 +1,19 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 import database
+
 parser = reqparse.RequestParser()
 parser.add_argument('task')
 app = Flask(__name__)
 api = Api(app)
 
+class Home(Resource):
+    def get(self):
+        return 'Hello World!'
+    
 class Results(Resource):
     def get(self):
-        return getResultsData(), 200  
+        return database.getResultsData(), 200  
 
     def post(self):
         data = request.get_json()
@@ -21,7 +26,8 @@ class Results(Resource):
             psychometricScore = data["psychometricScore"]
             AIScore = data["AIScore"]
             AIResult = data["AIResult"]
-
+            
+            database.createDatabase()
             database.insertResults(reactionScore, memoryScore, psychometricScore, AIScore, AIResult)
             return {"message": "Results inserted successfully"}, 201  
         except KeyError as e:
@@ -51,7 +57,8 @@ class StreakData(Resource):
     def get(self):
         return database.getStreakData()
 
-api.add_resource(Results, '/')
+api.add_resource(Home, '/')
+api.add_resource(Results, '/insert-results')
 api.add_resource(LatestResults, '/get-latest-results')
 api.add_resource(WeekAverage, '/get-week-average')
 api.add_resource(OverallProgress, '/get-overall-progress')
