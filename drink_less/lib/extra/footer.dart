@@ -66,7 +66,7 @@ class Footer extends StatelessWidget {
   void _showProfileDialog(BuildContext context) {
     final TextEditingController targetController = TextEditingController();
     final TextEditingController timeController = TextEditingController();
-    final TextEditingController messageController = TextEditingController();
+    final TextEditingController messageController = TextEditingController(text: globalMessage);
 
     showDialog(
       context: context,
