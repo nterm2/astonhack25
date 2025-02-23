@@ -54,12 +54,13 @@ class ClickingState {
   }
 
   bool update(Size size, double dt) {
+    print("count: $count, len: ${points.length}");
     deltaT = dt - odt;
     odt = dt;
 
     for (int i = 0; i < points.length; ++i) {
       points[i].y += deltaT * points[i].change;
-      if (points[i].y - points[i].change > size.height) {
+      if (points[i].y - points[i].size > size.height) {
         points.removeAt(i);
         --i;
         ++destroyed;
@@ -70,10 +71,13 @@ class ClickingState {
     if (last == null || last.y > size.height / 4 && Random().nextBool()) {
       _addNewBlock(size);
     }
-    return count >= 20;
+
+    return count >= 20 && points.isEmpty && correct.isEmpty;
   }
 
   void _addNewBlock(Size size) {
+    if (count >= 20) return;
+
     final rand = Random();
     final sz = 50.0;
     final shape = Shape.values[rand.nextInt(Shape.values.length)];
