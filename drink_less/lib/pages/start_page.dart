@@ -1,5 +1,4 @@
 import 'package:camera/camera.dart';
-import 'package:drink_less/pages/picture_page.dart';
 import 'package:drink_less/pages/take_picture.dart';
 import 'package:flutter/material.dart';
 

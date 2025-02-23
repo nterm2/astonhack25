@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drink_less/extra/footer.dart';
@@ -139,6 +138,8 @@ class Clicking extends CustomPainter {
 }
 
 class ClickingGame extends StatefulWidget {
+  const ClickingGame({super.key});
+
   @override
   _ClickingGameState createState() => _ClickingGameState();
 }

@@ -7,6 +7,8 @@ import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
 class MemoryMatchGame extends StatelessWidget {
+  const MemoryMatchGame({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GameScreen();
@@ -14,6 +16,8 @@ class MemoryMatchGame extends StatelessWidget {
 }
 
 class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -224,6 +228,8 @@ class _GameScreenState extends State<GameScreen> {
 
 
 class GameOverScreen extends StatelessWidget {
+  const GameOverScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
