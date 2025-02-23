@@ -1,5 +1,6 @@
 
 import 'package:drink_less/pages/start_page.dart';
+import 'package:drink_less/results/results.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drink_less/extra/footer.dart';
@@ -182,7 +183,7 @@ class _ShapeRotationState extends State<ShapeRotation> {
                                         .questionNumber +
                                         1,
                                   )
-                                      : StartTestPage(),
+                                      : ResultsPage(),
                                 ),
                               );
                             },
