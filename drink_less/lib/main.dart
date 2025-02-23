@@ -1,9 +1,10 @@
 import 'package:drink_less/pages/start_page.dart';
 import 'package:flutter/material.dart';
+import 'package:drink_less/pages/tts_page.dart' as tts;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(tts.MyApp());
 }
 
 class MyApp extends StatelessWidget {
