@@ -80,9 +80,9 @@ class _StartTestPageState extends State<StartTestPage> {
                                     );
 
                                 if (controller != null) {
-                                  artboard.addController(controller!);
                                   inputValue = controller?.findInput("input");
                                   inputValue?.change(0);
+                                  artboard.addController(controller!);
 
                                   for (double i = 1; i < snapshot.data!; i += 1) {
                                     await Future.delayed(Duration(milliseconds: 20));
