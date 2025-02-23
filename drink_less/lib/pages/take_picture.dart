@@ -51,14 +51,14 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            'Welcome to the Picture Test!',
+            'AI Test',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
           ),
           content: const Text(
-            "In this test, you'll have to take a picture of yourself, which we will use our pre-trained machine learning models to determine your intoxication levels. Please make sure to include the entirety of your face in this picture, and ensure there are no additional distractions. Good luck.",
+            "At this stage, you'll take a quick photo of yourself, and our AI will analyse it to provide insights on your current state. This helps you better understand how alcohol may be affecting you in the moment. It's a simple, judgment-free way to stay aware and make informed decisions about your well-being.",
             style: TextStyle(fontSize: 14),
           ),
           shape: RoundedRectangleBorder(
