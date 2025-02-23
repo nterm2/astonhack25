@@ -179,6 +179,8 @@ void _showEndDialog() {
                     onPressed: () {
                       timer?.cancel();
                       gameOver = true;
+                      // ISAAC
+                      double ratio_correctly_matched = (matchedPairs / attempts) * 100;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => ShapeRotation()),
