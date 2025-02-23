@@ -1,6 +1,5 @@
 import 'package:drink_less/games/clicking.dart';
 import 'package:drink_less/games/memory_match_game.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drink_less/extra/footer.dart';
@@ -50,7 +49,7 @@ class _ClickingPageState extends State<ClickingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome to the Clicking Test!',
+                  'Reaction Time Test',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -59,7 +58,7 @@ class _ClickingPageState extends State<ClickingPage> {
                 ),
                 const SizedBox(height: 16), // Spacing
                 const Text(
-                  'This test measures your reaction time. Twenty objects will fall from the sky - your aim is to catch as many of these objects as possible. Failing to do so will decrease your score. Good luck!',
+                  'Designed to challenge your quick thinking and reflexes. In this test, objects will start falling on the screen, and your task is to click on as many as you can before they hit the bottom. The faster you react, the higher your score, helping you gauge your reflex speed and track improvements over time. It\'s a fun and engaging way to measure your reaction time in real-time!',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black87, // Softer black for text

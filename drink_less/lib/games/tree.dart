@@ -4,7 +4,7 @@ import 'dart:math';
 class TreeWidget extends StatelessWidget {
   final int n; // Number of leaves
 
-  TreeWidget({required this.n});
+  const TreeWidget({super.key, required this.n});
 
   @override
   Widget build(BuildContext context) {
