@@ -67,31 +67,41 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-    void _showEndDialog() {
+void _showEndDialog() {
+  if (gameOver) return; // Prevents multiple dialogs
+
+  gameOver = true; // Mark game as finished
+  timer?.cancel(); // Stop the timer to prevent more updates
+
+  Future.delayed(Duration(milliseconds: 100), () { // Small delay to prevent UI flicker
+    if (!mounted) return;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Finished Memory Match Test.'),
-          content: Text('Well done - memorising so much in such little time isn\'nt an easy task. Let\'s move on to the Shape Rotation Test.'),
+          title: const Text('Finished Memory Match Test.'),
+          content: const Text(
+            'Well done - memorising so much in such little time isn\'t an easy task. Let\'s move on to the Shape Rotation Test.',
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                timer?.cancel();
-                gameOver = true;
+                Navigator.of(context).pop();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => ShapeRotation()),
                 );
               },
-              child: Text('Continue'),
+              child: const Text('Continue'),
             ),
           ],
         );
       },
     );
-  }
+  });
+}
 
   void _startGame() {
     setState(() {
