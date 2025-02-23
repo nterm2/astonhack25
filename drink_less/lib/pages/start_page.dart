@@ -20,6 +20,12 @@ class _StartTestPageState extends State<StartTestPage> {
   StateMachineController? controller;
   SMIInput<double>? inputValue;
 
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   Future<void> takePicture(BuildContext context) async {
     final cameras = await availableCameras();
     final fCam = cameras.firstWhere(
@@ -65,10 +71,8 @@ class _StartTestPageState extends State<StartTestPage> {
                             ),
                             child: RiveAnimation.asset(
                               "assets/tree-demo.riv",
-                              animations: ['none'],
-                              placeHolder: CircularProgressIndicator(),
                               fit: BoxFit.fitHeight,
-                              onInit: (artboard) {
+                              onInit: (artboard) async {
                                 controller =
                                     StateMachineController.fromArtboard(
                                       artboard,
@@ -78,13 +82,22 @@ class _StartTestPageState extends State<StartTestPage> {
                                 if (controller != null) {
                                   artboard.addController(controller!);
                                   inputValue = controller?.findInput("input");
-                                  inputValue?.change(snapshot.data!);
+                                  inputValue?.change(0);
+
+                                  for (double i = 1; i < snapshot.data!; i += 1) {
+                                    await Future.delayed(Duration(milliseconds: 20));
+                                    print(i);
+                                    inputValue?.change(i);
+                                  }
                                 }
                               },
                             ),
                           ),
                         )
-                        : CircularProgressIndicator(),
+                        : Align(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(),
+                    ),
           ),
           // The container now only wraps the text
           Padding(
