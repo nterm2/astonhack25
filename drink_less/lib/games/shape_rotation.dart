@@ -1,4 +1,5 @@
 import 'package:drink_less/pages/start_page.dart';
+import 'package:drink_less/results/results.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class SAR {
 
 class _ShapeRotationState extends State<ShapeRotation> {
   bool gameStarted = false; // Ensures game starts only after modal dismissal
-
+  int numCorrectAnswers = 0;
   @override
   void initState() {
     super.initState();
@@ -161,12 +162,18 @@ class _ShapeRotationState extends State<ShapeRotation> {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        if (c.$1 == sar.answer) print("RIGHT ANSWER");
+                                        if (c.$1 == sar.answer) numCorrectAnswers++;
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => widget.questionNumber < 5
-                                                ? ShapeRotation(questionNumber: widget.questionNumber + 1)
-                                                : StartTestPage(),
+                                            builder: (context) {
+                                              if (widget.questionNumber < 5) {
+                                              return ShapeRotation(questionNumber: widget.questionNumber + 1);
+                                            } else {
+                                              // Isaac
+                                              double shape_rotation_result = (numCorrectAnswers / 5) * 100;
+                                              return ResultsPage();
+                                            }
+                                            }
                                           ),
                                         );
                                       },
