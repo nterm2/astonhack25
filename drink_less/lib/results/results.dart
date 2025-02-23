@@ -36,10 +36,10 @@ class ResultsPage extends StatelessWidget {
 
     // Radar chart data
     final List<String> categories = [
-      'Reaction Test',
-      'Match Test',
-      'Shape Test',
-      'Face Test',
+      'Reaction',
+      'Match',
+      'Shape Rotation',
+      'Face',
     ];
     final List<double> baselineValues = [
       results.baseline.toDouble(),
@@ -306,7 +306,7 @@ class ResultsPage extends StatelessWidget {
                               reservedSize: 32,
                               getTitlesWidget: (value, _) {
                                 // Map indices to category names
-                                const categories = ['Reaction Test', 'Match Test', 'Shape Test', 'Face Test'];
+                                const categories = ['Reaction', 'Match', 'Shape', 'Face'];
                                 if (value.toInt() < categories.length) {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
