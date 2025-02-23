@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -9,7 +8,7 @@ import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
 class ResultsPage extends StatelessWidget {
-  const ResultsPage({Key? key}) : super(key: key);
+  const ResultsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

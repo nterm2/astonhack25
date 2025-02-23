@@ -7,6 +7,8 @@ import 'package:drink_less/extra/footer.dart';
 import 'package:drink_less/extra/header.dart';
 
 class MemoryMatchGame extends StatelessWidget {
+  const MemoryMatchGame({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GameScreen();
@@ -14,6 +16,8 @@ class MemoryMatchGame extends StatelessWidget {
 }
 
 class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -72,7 +76,7 @@ class _GameScreenState extends State<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome to Memory Match!',
+                  'Memory Match Test',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -81,7 +85,7 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 const SizedBox(height: 16), // Spacing
                 const Text(
-                  'In this test, you will be shown pairs of tiles. You will have 15 seconds to memorize the tiles’ locations and 30 seconds to match them correctly. Pay attention to detail and try to remember the positions of the tiles!',
+                  'In this test, you will be presented with pairs of tiles for 15 seconds to memorise their locations. Following this, you’ll have 30 seconds to match the tiles correctly. This exercise assesses your memory and attention to detail, helping you better understand your cognitive function and how it may be impacted. Take your time, and remember, there’s no rush—just focus on doing your best.',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black87, // Softer black for text
@@ -107,7 +111,7 @@ class _GameScreenState extends State<GameScreen> {
                       ), // Button padding
                     ),
                     child: const Text(
-                      'OK',
+                      'Start',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white, // White text
@@ -329,7 +333,7 @@ void startTimer() {
                   children: [
                     Text(
                       memorizationPhase 
-                        ? 'Memorize: ${timeLeft - 30} s' 
+                        ? 'Memorise: ${timeLeft - 30} s' 
                         : 'Time Left: $timeLeft s',
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
