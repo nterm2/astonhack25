@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -86,35 +85,46 @@ class ResultsPage extends StatelessWidget {
               bottom: 0.0,
               top: 0.0, // Prevent padding above
             ),
-            child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
+            child: SingleChildScrollView(
+              // Wrap Column with SingleChildScrollView
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   const SizedBox(height: 10),
 
-                  Container(  
+                  Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      color: Colors.green.withOpacity(0.1),
+                      // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12),
+                      // Rounded corners
                       border: Border.all(
-                        color: Colors.green.shade800, // Dark strong green outline
+                        color: Colors.green.shade800,
+                        // Dark strong green outline
                         width: 3, // Outline width
                       ),
                     ),
-                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    padding: const EdgeInsets.all(16),
+                    // Padding inside the container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Your Progress',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         const Text(
                           '''Tracking your journey is the first step toward change. Every step you take is progress, and each small victory brings you closer to your goals.
                           \nKeep moving forward—you're making incredible strides toward the change you deserve.''',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -139,7 +149,9 @@ class ResultsPage extends StatelessWidget {
                           dataSets: [
                             RadarDataSet(
                               dataEntries:
-                                  baselineValues.map((value) => RadarEntry(value: value)).toList(),
+                                  baselineValues
+                                      .map((value) => RadarEntry(value: value))
+                                      .toList(),
                               borderColor: Colors.blue,
                               fillColor: Colors.blue.withOpacity(0.2),
                               borderWidth: 2,
@@ -147,7 +159,9 @@ class ResultsPage extends StatelessWidget {
                             ),
                             RadarDataSet(
                               dataEntries:
-                                  todayValues.map((value) => RadarEntry(value: value)).toList(),
+                                  todayValues
+                                      .map((value) => RadarEntry(value: value))
+                                      .toList(),
                               borderColor: Colors.red,
                               fillColor: Colors.red.withOpacity(0.2),
                               borderWidth: 2,
@@ -157,9 +171,7 @@ class ResultsPage extends StatelessWidget {
                           radarBorderData: BorderSide.none,
                           titlePositionPercentageOffset: 0.2,
                           getTitle: (index, _) {
-                            return RadarChartTitle(
-                              text: categories[index],
-                            );
+                            return RadarChartTitle(text: categories[index]);
                           },
                           tickCount: 4,
                           ticksTextStyle: TextStyle(
@@ -173,6 +185,9 @@ class ResultsPage extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                           ),
                           radarBackgroundColor: Colors.transparent,
+                          radarTouchData: RadarTouchData(
+                              enabled: true,
+                          ),
                         ),
                       ),
                     ),
@@ -181,21 +196,28 @@ class ResultsPage extends StatelessWidget {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      color: Colors.green.withOpacity(0.1),
+                      // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12),
+                      // Rounded corners
                       border: Border.all(
-                        color: Colors.green.shade800, // Dark strong green outline
+                        color: Colors.green.shade800,
+                        // Dark strong green outline
                         width: 3, // Outline width
                       ),
                     ),
-                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    padding: const EdgeInsets.all(16),
+                    // Padding inside the container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           '''Today is about reflection and intention. This chart shows how you\'re doing compared to your baseline or target.
                           \nEven if today feels challenging, remember: it\'s about the effort, not perfection. This is a step closer to the future you envision.''',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -223,7 +245,9 @@ class ResultsPage extends StatelessWidget {
                             // Smooth line
                             barWidth: 4,
                             color: Colors.blue,
-                            dotData: FlDotData(show: true), // Show dots on points
+                            dotData: FlDotData(
+                              show: true,
+                            ), // Show dots on points
                           ),
                         ],
                         titlesData: FlTitlesData(
@@ -263,24 +287,30 @@ class ResultsPage extends StatelessWidget {
                     ),
                   ),
 
-
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      color: Colors.green.withOpacity(0.1),
+                      // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12),
+                      // Rounded corners
                       border: Border.all(
-                        color: Colors.green.shade800, // Dark strong green outline
+                        color: Colors.green.shade800,
+                        // Dark strong green outline
                         width: 3, // Outline width
                       ),
                     ),
-                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    padding: const EdgeInsets.all(16),
+                    // Padding inside the container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           '''A week may feel like a small part of the bigger picture, but it's where real habits are built.
                           \nThis graph shows how consistent you’ve been. Celebrate your wins and learn from the harder days.''',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -298,7 +328,8 @@ class ResultsPage extends StatelessWidget {
                     height: 300, // Set a fixed height for charts
                     child: BarChart(
                       BarChartData(
-                        maxY: 100, // Set the y-axis range from 0 to 100
+                        maxY: 100,
+                        // Set the y-axis range from 0 to 100
                         titlesData: FlTitlesData(
                           bottomTitles: AxisTitles(
                             sideTitles: SideTitles(
@@ -306,7 +337,12 @@ class ResultsPage extends StatelessWidget {
                               reservedSize: 32,
                               getTitlesWidget: (value, _) {
                                 // Map indices to category names
-                                const categories = ['Reaction', 'Match', 'Shape', 'Face'];
+                                const categories = [
+                                  'Reaction',
+                                  'Match',
+                                  'Shape',
+                                  'Face',
+                                ];
                                 if (value.toInt() < categories.length) {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
@@ -332,26 +368,31 @@ class ResultsPage extends StatelessWidget {
                               reservedSize: 28,
                               interval: 25,
                               getTitlesWidget: (value, _) {
-                                  return Text(
-                                    value.toInt().toString(),
-                                    style: const TextStyle(fontSize: 12),
-                                  );
+                                return Text(
+                                  value.toInt().toString(),
+                                  style: const TextStyle(fontSize: 12),
+                                );
                               },
                             ),
                           ),
                         ),
-                        gridData: FlGridData(show: true), // Enable grid lines
-                        borderData: FlBorderData(show: true), // Show chart borders
+                        gridData: FlGridData(show: true),
+                        // Enable grid lines
+                        borderData: FlBorderData(show: true),
+                        // Show chart borders
                         barGroups: [
                           // Define data for each bar
                           BarChartGroupData(
                             x: 0, // Index for Reaction Average
                             barRods: [
                               BarChartRodData(
-                                toY: results.reactionAverage, // Reaction Average value
+                                toY: results.reactionAverage,
+                                // Reaction Average value
                                 color: Colors.blue,
                                 width: 16,
-                                borderRadius: BorderRadius.circular(4), // Rounded corners
+                                borderRadius: BorderRadius.circular(
+                                  4,
+                                ), // Rounded corners
                               ),
                             ],
                           ),
@@ -359,10 +400,13 @@ class ResultsPage extends StatelessWidget {
                             x: 1, // Index for Memory Average
                             barRods: [
                               BarChartRodData(
-                                toY: results.memoryAverage, // Memory Average value
+                                toY: results.memoryAverage,
+                                // Memory Average value
                                 color: Colors.yellow,
                                 width: 16,
-                                borderRadius: BorderRadius.circular(4), // Rounded corners
+                                borderRadius: BorderRadius.circular(
+                                  4,
+                                ), // Rounded corners
                               ),
                             ],
                           ),
@@ -370,10 +414,13 @@ class ResultsPage extends StatelessWidget {
                             x: 2, // Index for Shape and Rotation Average
                             barRods: [
                               BarChartRodData(
-                                toY: results.psychometricAverage, // Shape and Rotation Average value
+                                toY: results.psychometricAverage,
+                                // Shape and Rotation Average value
                                 color: Colors.orange,
                                 width: 16,
-                                borderRadius: BorderRadius.circular(4), // Rounded corners
+                                borderRadius: BorderRadius.circular(
+                                  4,
+                                ), // Rounded corners
                               ),
                             ],
                           ),
@@ -384,7 +431,9 @@ class ResultsPage extends StatelessWidget {
                                 toY: results.AIAverage, // AI Average value
                                 color: Colors.purple,
                                 width: 16,
-                                borderRadius: BorderRadius.circular(4), // Rounded corners
+                                borderRadius: BorderRadius.circular(
+                                  4,
+                                ), // Rounded corners
                               ),
                             ],
                           ),
@@ -393,7 +442,12 @@ class ResultsPage extends StatelessWidget {
                           enabled: true,
                           touchTooltipData: BarTouchTooltipData(
                             getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                              const categories = ['Reaction Test', 'Match Test', 'Shape Test', 'Face Test'];
+                              const categories = [
+                                'Reaction Test',
+                                'Match Test',
+                                'Shape Test',
+                                'Face Test',
+                              ];
                               return BarTooltipItem(
                                 '${categories[group.x]}: ${rod.toY.toStringAsFixed(1)}',
                                 const TextStyle(color: Colors.white),
@@ -407,21 +461,28 @@ class ResultsPage extends StatelessWidget {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      color: Colors.green.withOpacity(0.1),
+                      // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12),
+                      // Rounded corners
                       border: Border.all(
-                        color: Colors.green.shade800, // Dark strong green outline
+                        color: Colors.green.shade800,
+                        // Dark strong green outline
                         width: 3, // Outline width
                       ),
                     ),
-                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    padding: const EdgeInsets.all(16),
+                    // Padding inside the container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           '''This is your story, and this graph captures the progress you've made over time in each area.
                           \nThese metrics are more than just numbers—they represent your resilience, effort, and commitment to a better you.''',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -429,27 +490,37 @@ class ResultsPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  Container(  
+                  Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1), // Light calm green background (transparent)
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      color: Colors.green.withOpacity(0.1),
+                      // Light calm green background (transparent)
+                      borderRadius: BorderRadius.circular(12),
+                      // Rounded corners
                       border: Border.all(
-                        color: Colors.green.shade800, // Dark strong green outline
+                        color: Colors.green.shade800,
+                        // Dark strong green outline
                         width: 3, // Outline width
                       ),
                     ),
-                    padding: const EdgeInsets.all(16), // Padding inside the container
+                    padding: const EdgeInsets.all(16),
+                    // Padding inside the container
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Remember Your Motivation',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           globalMessage,
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -461,7 +532,9 @@ class ResultsPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => StartTestPage()), // Link to StartTestPage
+                        MaterialPageRoute(
+                          builder: (context) => StartTestPage(),
+                        ), // Link to StartTestPage
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -469,7 +542,10 @@ class ResultsPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12), // Curved edges
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
+                      ),
                     ),
                     child: Text(
                       'Finish',
@@ -482,7 +558,6 @@ class ResultsPage extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 10),
-                  
                 ],
               ),
             ),
@@ -492,7 +567,6 @@ class ResultsPage extends StatelessWidget {
 
       bottomNavigationBar: const Footer(),
     );
-
   }
 }
 
