@@ -49,6 +49,32 @@ class _ClickingPageState extends State<ClickingPage> {
     );
   }
 
+    void _showEndDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents accidental dismissal
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Finished The Clicking Test.'),
+          content: const Text(
+            'Congrats! Hopefully catching so many shapes wasn\'nt too energy consuming. We\'ll now go over towards the Memory Match Test - make sure you are on your A-Game!',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                setState(() {
+                  gameStarted = true; // Start game after dialog is dismissed
+                });
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _checkGameEnd(double value) {
     if (!gameEnded && cs.update(MediaQuery.of(context).size, value)) {
       setState(() {
