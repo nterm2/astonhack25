@@ -13,6 +13,7 @@ class PicturePage extends StatefulWidget {
 }
 
 class _PicturePageState extends State<PicturePage> {
+
   Future<void> takePicture(BuildContext context) async {
     final cameras = await availableCameras();
     final fCam = cameras.firstWhere(
