@@ -1,4 +1,5 @@
 import 'package:drink_less/pages/start_page.dart';
+import 'package:drink_less/pages/tts_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: StartTestPage(),
+      home: MyHomePage(),
     );
   }
 }
