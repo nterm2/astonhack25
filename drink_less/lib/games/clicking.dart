@@ -238,6 +238,31 @@ class _ClickingGameState extends State<ClickingGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/background/background.png', fit: BoxFit.cover),
+          ),
+          // Game content or loading spinner based on the gameStarted flag
+          gameStarted
+              ? GestureDetector(
+                  onTapDown: (TapDownDetails details) {
+                    setState(() {
+                      cs.onClick(details.globalPosition);
+                    });
+                  },
+                  child: CustomPaint(
+                    size: Size.infinite,
+                    painter: Clicking(cs: cs),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
+                ),
+        ],
+      ),
+
+      /*
       body: gameStarted
           ? GestureDetector(
         onTapDown: (TapDownDetails details) {
@@ -253,6 +278,7 @@ class _ClickingGameState extends State<ClickingGame> {
           : Center(
         child: CircularProgressIndicator(), // Shows a spinner until modal is dismissed
       ),
+      */
       bottomNavigationBar: const Footer(),
     );
   }
