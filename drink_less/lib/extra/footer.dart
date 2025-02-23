@@ -70,16 +70,27 @@ class Footer extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Text(
-            'Profile Settings',
-            style: TextStyle(fontWeight: FontWeight.bold),
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(
+              color: Color(0xFF006400), // Dark green border around the modal
+              width: 3,
+            ),
           ),
-          content: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                const Text(
+                  'Profile Settings',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
                 // Target Value Field
                 TextField(
                   controller: targetController,
@@ -87,7 +98,20 @@ class Footer extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: 'Target (0-100)',
                     hintText: 'Higher is more sober',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF388E3C), // Light green border on focus
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF006400), // Dark green border when not focused
+                        width: 1.5,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -97,7 +121,20 @@ class Footer extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: 'Notification Time',
                     hintText: 'e.g., 6pm-12pm',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF388E3C), // Light green border on focus
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF006400), // Dark green border when not focused
+                        width: 1.5,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -108,40 +145,65 @@ class Footer extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: 'Motivational Message',
                     hintText: 'Why do you want to quit?',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF388E3C), // Light green border on focus
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF006400), // Dark green border when not focused
+                        width: 1.5,
+                      ),
+                    ),
                   ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Color(0xFF388E3C)), // Light green text
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    TextButton(
+                      onPressed: () {
+                        // Save inputs or pass them to a parent/state
+                        String target = targetController.text;
+                        String time = timeController.text;
+                        String message = messageController.text;
+
+                        // Perform your saving logic here
+                        print('Target: $target');
+                        print('Time: $time');
+                        print('Message: $message');
+
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(color: Color(0xFF388E3C)), // Light green text
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Save inputs or pass them to a parent/state
-                String target = targetController.text;
-                String time = timeController.text;
-                String message = messageController.text;
-
-                // Perform your saving logic here
-                print('Target: $target');
-                print('Time: $time');
-                print('Message: $message');
-
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Save'),
-            ),
-          ],
         );
       },
     );
   }
 }
+
 
 
