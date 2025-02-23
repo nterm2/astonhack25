@@ -16,7 +16,7 @@ class ResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dummy data - need to read from json file
     final results = Results(
-      baseline: 55,
+      baseline: 65,
       todayReactionResult: 78.0,
       todayMemoryResult: 81.0,
       todayPsychometricResult: 67.0,
