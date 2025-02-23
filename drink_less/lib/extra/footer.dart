@@ -7,10 +7,13 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF388E3C), // Lighter dark green background
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0), // Spacing
+      color: const Color(0xFF388E3C),
+      // Lighter dark green background
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      // Spacing
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space elements apart
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // Space elements apart
         children: [
           // Left: Profile picture with name
           GestureDetector(
@@ -37,7 +40,8 @@ class Footer extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8), // Space between the profile picture and the name
+                const SizedBox(width: 8),
+                // Space between the profile picture and the name
                 const Text(
                   'Jonathan',
                   style: TextStyle(
@@ -64,9 +68,15 @@ class Footer extends StatelessWidget {
   }
 
   void _showProfileDialog(BuildContext context) {
-    final TextEditingController targetController = TextEditingController();
-    final TextEditingController timeController = TextEditingController();
-    final TextEditingController messageController = TextEditingController(text: globalMessage);
+    final TextEditingController targetController = TextEditingController(
+      text: globalTarget,
+    );
+    final TextEditingController timeController = TextEditingController(
+      text: globalNotification,
+    );
+    final TextEditingController messageController = TextEditingController(
+      text: globalMessage,
+    );
 
     showDialog(
       context: context,
@@ -86,10 +96,7 @@ class Footer extends StatelessWidget {
               children: [
                 const Text(
                   'Profile Settings',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(height: 16),
                 // Target Value Field
@@ -109,7 +116,8 @@ class Footer extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(
-                        color: Color(0xFF006400), // Dark green border when not focused
+                        color: Color(0xFF006400),
+                        // Dark green border when not focused
                         width: 1.5,
                       ),
                     ),
@@ -132,7 +140,8 @@ class Footer extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(
-                        color: Color(0xFF006400), // Dark green border when not focused
+                        color: Color(0xFF006400),
+                        // Dark green border when not focused
                         width: 1.5,
                       ),
                     ),
@@ -156,7 +165,8 @@ class Footer extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(
-                        color: Color(0xFF006400), // Dark green border when not focused
+                        color: Color(0xFF006400),
+                        // Dark green border when not focused
                         width: 1.5,
                       ),
                     ),
@@ -172,22 +182,40 @@ class Footer extends StatelessWidget {
                       },
                       child: const Text(
                         'Cancel',
-                        style: TextStyle(color: Color(0xFF388E3C)), // Light green text
+                        style: TextStyle(
+                          color: Color(0xFF388E3C),
+                        ), // Light green text
                       ),
                     ),
                     const SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         // Save inputs or pass them to a parent/state
-                        globalMessage = messageController.text.isEmpty
-                            ? globalMessage
-                            : messageController.text;
+                        globalMessage =
+                            messageController.text.isEmpty
+                                ? globalMessage
+                                : messageController.text;
+
+                        final target = targetController.text;
+                        if (target.isNotEmpty) {
+                          if (target.length < 3) {
+                            globalTarget = target.substring(0, target.length);
+                          } else {
+                            globalTarget = "100";
+                          }
+                        }
+
+                        if (timeController.text.isNotEmpty) {
+                          globalNotification = timeController.text;
+                        }
 
                         Navigator.of(context).pop(); // Close the dialog
                       },
                       child: const Text(
                         'Save',
-                        style: TextStyle(color: Color(0xFF388E3C)), // Light green text
+                        style: TextStyle(
+                          color: Color(0xFF388E3C),
+                        ), // Light green text
                       ),
                     ),
                   ],
@@ -200,7 +228,3 @@ class Footer extends StatelessWidget {
     );
   }
 }
-
-
-
-
