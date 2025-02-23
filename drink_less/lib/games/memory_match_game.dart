@@ -121,9 +121,15 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+void _showEndDialog() {
+  if (gameOver) return; // Prevents multiple dialogs
 
+  gameOver = true; // Mark game as finished
+  timer?.cancel(); // Stop the timer to prevent more updates
 
-  void _showEndDialog() {
+  Future.delayed(Duration(milliseconds: 100), () { // Small delay to prevent UI flicker
+    if (!mounted) return;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -201,7 +207,8 @@ class _GameScreenState extends State<GameScreen> {
         );
       },
     );
-  }
+  });
+}
 
 
   void _startGame() {
